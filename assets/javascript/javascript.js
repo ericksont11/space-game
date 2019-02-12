@@ -1,10 +1,28 @@
 $(document).ready(function() {
     var counter = 0;
-    var shipArray = ["assets/images/x-wing.png", "assets/images/pelican.png", "assets/images/enterprise.png"];
+    var data = 150
+
+    var unlockables = [
+            {
+            name : "X-WING",
+            image: "assets/images/x-wing.png",
+            unlockAmount: 100,
+            },
+            {
+            name : "PELICAN",
+            image: "assets/images/pelican.png",
+            unlockAmount: 150,
+            },
+            {
+            name : "ENTERPRISE",
+            image: "assets/images/enterprise.png",
+            unlockAmount: 200,
+            },
+    ]
 
     $("#ship-selection").on("click", function(event) {
         $(".ship-selection-menu").addClass("is-active");
-        console.log("hello")
+        unlockScreen();
     });
     $("#upgrade-selection").on("click", function(event) {
         $(".upgrade-selection-menu").addClass("is-active");
@@ -30,9 +48,9 @@ $(document).ready(function() {
     function next () {
         if (counter < 2) {
             counter ++
-            $("#ship").attr("src", shipArray[counter])
-            console.log(counter)
-            console.log(shipArray[counter])
+            $("#ship").attr("src", unlockables[counter].image)
+            $("#ship-text").html(unlockables[counter].name + ": REQUIRES " + unlockables[counter].unlockAmount + " DATA TO UNLOCK")
+            unlockScreen();
         }
     }
 
@@ -41,9 +59,21 @@ $(document).ready(function() {
     function prev() {
         if (counter > 0) {
             counter --
-            $("#ship").attr("src", shipArray[counter])
-            console.log(counter)
-            console.log(shipArray[counter])
+            $("#ship").attr("src", unlockables[counter].image)
+            $("#ship-text").html(unlockables[counter].name + ": REQUIRES " + unlockables[counter].unlockAmount + " DATA TO UNLOCK")
+            unlockScreen();
+        }
+
+    }
+
+    function unlockScreen() {
+        if (data >= unlockables[counter].unlockAmount) {
+            $("#ship").css("opacity", "1")
+        }
+        else {
+            $("#ship").css("opacity", "0.5")
         }
     }
+
+
 });

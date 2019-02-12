@@ -287,6 +287,18 @@
     width: 30%;
     opacity: 0.5;
 }
+
+#scientist {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    height: auto;
+    width: 15%;
+    opacity: 0.5;
+}
   
 .modal-display {
     width: 100%;

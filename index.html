@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Space Sounds</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link href="gameover.html">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    </head>
+    <body id="solar-body">
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+        <div class="galaxy"></div>
+        <img src="assets/images/sun.png" class="planetImage" id="sun">
+        <img src="assets/images/unpowered.png" id="rocket">
+        <img src="assets/images/mercury.png" class="planetImage" id="mercury">
+        <img src="assets/images/venus.png" class="planetImage" id="venus">
+        <img src="assets/images/earth.png" class="planetImage" id="earth">
+        <img src="assets/images/mars.png" class="planetImage" id="mars">
+        <img src="assets/images/jupiter.png" class="planetImage" id="jupiter">
+        <img src="assets/images/saturn.png" class="planetImage" id="saturn">
+        <img src="assets/images/uranus.png" class="planetImage" id="uranus">
+        <img src="assets/images/neptune.png" class="planetImage" id="neptune">
+
+        <div id="selection-menu">
+            <div id="ship-selection" class="selected">
+                <p class="selection-text"> SHIP SELECTION </p>
+                <img class="selection-img ship-image" src="assets/images/rocket.png">
+            </div>
+            <div id="character-selection" class="selected">
+                <p class="selection-text"> SELECT CHARACTERS</p>
+                <img class="selection-img character-image" src="assets/images/botanist.png">
+            </div>
+            <div id="upgrade-selection" class="selected">
+                <p class="selection-text"> CHOOSE UPGRADES </p>
+                <img class="selection-img upgrade-image" src="assets/images/toolbox.png">
+            </div>
+        <div>
+        <!-- Modal: pops up when user answers incorrectly -->
+        <div class="modal upgrade-selection-menu">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title"></p>
+                    <button class="delete modal_button" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body is-size-5 modal-display">
+                    <a href="#" class="next round" >&#8250;</a>
+                    <a href="#" class="previous round" >&#8249;</a>
+                    <p id="modal-title" class="title"></p>
+                    <p id="modal-content"></p>
+                </section>
+                <footer class="columns modal-card-foot">
+                    <button class="button has-background-grey-lighter modal_button">Continue</button>
+                    <div class="column has-text-right">
+                        <p id="question-tracker"></p>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <div class="modal ship-selection-menu">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title"></p>
+                    <button class="delete modal_button" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body is-size-5 modal-display">
+                    <a href="#" class="next round" >&#8250;</a>
+                    <a href="#" class="previous round" >&#8249;</a>
+                    <img src="assets/images/x-wing.png" id="ship">
+                    <p id="ship-text">You've collected enough data to upgrade to a Star Wars X-Wing!</p>
+                </section>
+                <footer class="columns modal-card-foot">
+                    <button class="button has-background-grey-lighter modal_button">Upgrade!</button>
+                </footer>
+            </div>
+        </div>
+        <div class="modal character-selection-menu">
+
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title"></p>
+                    <button class="delete modal_button" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body is-size-5 modal-display">
+                        <a href="#" class="next round" >&#8250;</a>
+                        <a href="#" class="previous round" >&#8249;</a>
+                        <img src="assets/images/x-wing.png" id="ship">
+                        <p id="ship-text">You've collected enough data to upgrade to a Star Wars X-Wing!</p>
+                </section>
+                <footer class="columns modal-card-foot">
+                    <button class="button has-background-grey-lighter modal_button">Upgrade!</button>
+                </footer>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <!-- Javascript -->
+        <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+        <script src="assets/javascript/javascript.js"></script>
+    </body>
+</html>

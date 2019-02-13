@@ -1,12 +1,14 @@
 $(document).ready(function() {
     var counter = 0;
     var data = 150
+    var x =0
 
     var unlockables = {
         ships : [
             {
             name : "X-WING",
             image: "assets/images/x-wing.png",
+            imageOn: "assets/images/x-wing-powered.png",
             unlockAmount: 100,
             },
             {
@@ -18,7 +20,13 @@ $(document).ready(function() {
             name : "ENTERPRISE",
             image: "assets/images/enterprise.png",
             unlockAmount: 200,
-            }
+            },
+            {
+            name : "SPACE SHUTTLE",
+            image: "assets/images/rocket-up.png",
+            imageOn: "assets/images/rocket.png",
+            unlockAmount: 100,
+            },
         ],
         characters : [
             {
@@ -38,6 +46,28 @@ $(document).ready(function() {
         $(".ship-selection-menu").addClass("is-active");
         unlockScreen();
     });
+
+    $("#mars").on("click", function(event) {
+        x=3900
+        $("#rocket").removeClass();
+        $("#rocket").addClass("animation-earth-to-mars");
+        startTravel();
+    });
+
+    $("#earth").on("click", function(event) {
+        x=5900
+        $("#rocket").removeClass();
+        $("#rocket").addClass("animation-mars-to-earth");
+        startTravel();
+    });
+
+    $("#venus").on("click", function(event) {
+        x=4900
+        $("#rocket").removeClass();
+        $("#rocket").addClass("animation-earth-to-venus");
+        startTravel();
+    });
+
     $("#upgrade-selection").on("click", function(event) {
         counter = 0
         $(".upgrade-selection-menu").addClass("is-active");
@@ -59,6 +89,19 @@ $(document).ready(function() {
         next()
     });
     
+
+    $(".planetImage").on("mouseenter", function() {
+        var text = this.id
+        console.log(text)
+        var upper = text.toUpperCase();
+        $(".popup").css("display", "inline-block");
+        $("#popup-text").html(upper);
+    });
+
+    $(".planetImage").on("mouseleave", function() {
+        $(".popup").css("display", "none");
+    });
+         
     //function cycles through the events
 
     function next () {
@@ -92,5 +135,11 @@ $(document).ready(function() {
         }
     }
 
+    function startTravel () {
+        $("#rocket").attr("src", unlockables.ships[3].imageOn)
+        setTimeout(function() {
+            $("#rocket").attr("src", unlockables.ships[3].image)
+        },x)
+    }
 
 });

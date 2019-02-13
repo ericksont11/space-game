@@ -6,14 +6,14 @@
 
 
 #rocket {
-    height:auto;
-    width:2vw;
-    z-index:10;
-    transform: rotate(-90deg);
     position: absolute;
     top: 61.07%;
-    transform: translateY(-125%) translateX(-50%) rotate(-90deg);
+    transform: translateY(-50%) translateX(-50%);
     left: 69.07%;
+    width: 3%;
+    height: auto;
+    z-index: 10;
+    margin-top: -1.75%
 }
 
 #sun {
@@ -305,7 +305,64 @@
     height: 45vh;
 }
 
+.popup {
+    height: 20vh;
+    width:20vw;
+    margin-left: 25vw;
+    margin-top:5vh;
+    background-color: white;
+    position: absolute;
+    border-radius: 3%;
+    color: mediumseagreen;
+    display: none;
+}
+
+#popup-text{
+    font-size: 1.5vw;
+    text-align: center;
+    background-color: mediumseagreen;
+    color: white;
+
+}
+
 #ship-text {
     font-size: 1.5vw;
     text-align: center
 }
+
+.animation-earth-to-mars {
+    animation: animation-earth-to-mars 4000ms linear both;
+    
+    }
+    @keyframes animation-earth-to-mars { 
+    0% {  top: 61.07%; left:69.07%; margin-top: -1.75%; transform: rotate(0deg) translateY(-50%) translateX(-50%); }
+    50% { top: 49.5%; left:70.49%; margin-top: -1.75%; transform:rotate(15deg) translateY(-50%) translateX(-50%);} 
+    90% { top: 36%; left:71.9%; margin-top: -1.75%; transform:rotate(0deg) translateY(-50%) translateX(-50%);} 
+    95% { top: 37%; left:71.9%; margin-top: -1.75%; transform:rotate(0deg) translateY(-50%) translateX(-50%);} 
+    100% { top: 38%; left:71.9%; margin-top: -1.75%; transform:rotate(0deg) translateY(-50%) translateX(-50%);} 
+}
+
+.animation-earth-to-venus {
+    animation: animation-earth-to-venus 5000ms linear both;
+    
+    }
+    @keyframes animation-earth-to-venus { 
+    0% {  top: 61.07%; left:69.07%; margin-top: -1.75%; transform: rotate(0deg) translateY(-50%) translateX(-50%); }
+    50% { top: 51.5%; left:54.49%; margin-top: -1.75%; transform:rotate(-45deg) translateY(-50%) translateX(-50%);} 
+    90% { top: 39%; left:49.05%; margin-top: -1.75%; transform:rotate(0deg) translateY(-50%) translateX(-50%);} 
+    95% { top: 40%; left:49.05%; margin-top: -1.75%; transform:rotate(0deg) translateY(-50%) translateX(-50%);} 
+    100% { top: 41.05%; left:49.05%; margin-top: -1.75%; transform:rotate(0deg) translateY(-50%) translateX(-50%);} 
+}
+    
+.animation-mars-to-earth {
+    animation: animation-mars-to-earth 6000ms linear both;
+    
+    }
+    @keyframes animation-mars-to-earth { 
+    0% { top: 38%; left:71.9%; margin-top: -1.75%; transform:rotate(0deg) translateY(-50%) translateX(-50%);} 
+    25% { top: 34%; left:73.9%; margin-top: -1.75%; transform:rotate(120deg) translateY(-50%) translateX(-50%);} 
+    50% { top: 49%; left:77.9%; margin-top: -1.75%; transform:rotate(190deg) translateY(-50%) translateX(-50%);} 
+    75% { top: 60%; left:74.9%; margin-top: -1.75%; transform:rotate(270deg) translateY(-50%) translateX(-50%);} 
+    100% {  top: 61.07%; left:69.07%; margin-top: -1.75%; transform: rotate(360deg) translateY(-50%) translateX(-50%); }
+}
+    

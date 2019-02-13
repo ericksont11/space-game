@@ -2,7 +2,8 @@ $(document).ready(function() {
     var counter = 0;
     var data = 150
 
-    var unlockables = [
+    var unlockables = {
+        ships : [
             {
             name : "X-WING",
             image: "assets/images/x-wing.png",
@@ -17,17 +18,32 @@ $(document).ready(function() {
             name : "ENTERPRISE",
             image: "assets/images/enterprise.png",
             unlockAmount: 200,
-            },
-    ]
+            }
+        ],
+        characters : [
+            {
+                name: "BOTANIST",
+                unlockAmount : 100,
+            }
+        ],
+        upgrades : [
+            {
+                name: "BOOSTER"
+            }
+        ]
+    }
 
     $("#ship-selection").on("click", function(event) {
+        counter = 0;
         $(".ship-selection-menu").addClass("is-active");
         unlockScreen();
     });
     $("#upgrade-selection").on("click", function(event) {
+        counter = 0
         $(".upgrade-selection-menu").addClass("is-active");
     });
     $("#character-selection").on("click", function(event) {
+        counter = 0
         $(".character-selection-menu").addClass("is-active");
     });
 
@@ -48,8 +64,9 @@ $(document).ready(function() {
     function next () {
         if (counter < 2) {
             counter ++
-            $("#ship").attr("src", unlockables[counter].image)
-            $("#ship-text").html(unlockables[counter].name + ": REQUIRES " + unlockables[counter].unlockAmount + " DATA TO UNLOCK")
+            console.log(unlockables.ships[counter].image)
+            $("#ship").attr("src", unlockables.ships[counter].image)
+            $("#ship-text").html(unlockables.ships[counter].name + ": REQUIRES " + unlockables.ships[counter].unlockAmount + " DATA TO UNLOCK")
             unlockScreen();
         }
     }
@@ -59,15 +76,15 @@ $(document).ready(function() {
     function prev() {
         if (counter > 0) {
             counter --
-            $("#ship").attr("src", unlockables[counter].image)
-            $("#ship-text").html(unlockables[counter].name + ": REQUIRES " + unlockables[counter].unlockAmount + " DATA TO UNLOCK")
+            $("#ship").attr("src", unlockables.ships[counter].image)
+            $("#ship-text").html(unlockables.ships[counter].name + ": REQUIRES " + unlockables.ships[counter].unlockAmount + " DATA TO UNLOCK")
             unlockScreen();
         }
 
     }
 
     function unlockScreen() {
-        if (data >= unlockables[counter].unlockAmount) {
+        if (data >= unlockables.ships[counter].unlockAmount) {
             $("#ship").css("opacity", "1")
         }
         else {

@@ -385,6 +385,20 @@
     text-align: center;
     font-size: 2vh;
 }
+
+#resources-box {
+    position:absolute;
+    margin-top: 0;
+    width: 10vw;
+    margin-left: 45vw;
+    height: 10vh;
+    background-color: white;
+    color:mediumseagreen;
+    margin-top: 2.5vh;
+    text-align: center;
+    font-size: 2vh;
+}
+
 .character-populate {
     float:center;
     position: relative;;

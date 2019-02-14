@@ -1,9 +1,23 @@
 $(document).ready(function() {
     var counter = 0;
-    var data = localStorage.getItem("data")
+    var shipID = "assets/images/rocket-up.png"
+    var data;
+    console.log(data)
+    if (!data) {
+        data = localStorage.getItem("data")
+        shipID = localStorage.getItem("shipID", shipID);
+        console.log("yes")
+    }
+    else {
+        data = 0
+        console.log("no")
+    }
+    console.log(data)
     var x = 0;
 
-    $("#CHARACTERS").html(localStorage.getItem("data"));
+    $("#data-text-box").html("DATA: " + data);
+    $("#ship-id").attr("src", shipID)
+    $("#rocket").attr("src", shipID)
 
     var unlockables = {
         ships : [
@@ -44,17 +58,18 @@ $(document).ready(function() {
     }
 
     $("#answer-one-box").on("click", function(event) {
-        data = parseFloat(data) + 100;
-        localStorage.setItem("data", data);
-        console.log(data)
+        data = parseFloat(data) + 50;
+        $("#data-text-box").html("DATA: " + data);
     });
 
     $("#answer-two-box").on("click", function(event) {
+        localStorage.setItem("data", data);
         window.location.href = "index.html"
     });
 
     $("#ship-selection").on("click", function(event) {
         counter = 0;
+        console.log(unlockables.ships[counter].image)
         $(".ship-selection-menu").addClass("is-active");
         unlockScreen();
     });
@@ -101,16 +116,28 @@ $(document).ready(function() {
     $(".next").on("click", function(e) {
         next()
     });
+
+    $("#ship").on("click", function() {
+        if (data >= unlockables.ships[counter].unlockAmount) {
+            $(".ship-selection-menu").removeClass("is-active");
+            data = data - unlockables.ships[counter].unlockAmount
+            console.log(data)
+            $("#rocket").attr("src", unlockables.ships[counter].image)
+            shipID = unlockables.ships[counter].image
+            localStorage.setItem("shipID", shipID);
+        }
+        counter = 0
+    });
     
 
     $(".planetImage").on("mouseenter", function() {
-        text = this.id
+        text = this.id 
         upper = text.toUpperCase();
         $(".popup").css("display", "inline-block");
         $("#popup-text").html(upper);
         if (text === "mars") {
             $("#planet-activities").html("This planet is accessible using a basic rocket! If you bring your botanist here you can start helping "+
-            "him grow plants here by answering biology questions!" + data);
+            "him grow plants by answering biology questions!" + data);
         }
     });
 
@@ -150,6 +177,7 @@ $(document).ready(function() {
     }
 
     function unlockScreen() {
+        $("#ship").attr("src", unlockables.ships[counter].image)
         if (data >= unlockables.ships[counter].unlockAmount) {
             $("#ship").css("opacity", "1")
         }
@@ -160,8 +188,6 @@ $(document).ready(function() {
 
     function startTravel () {
         $("#rocket").attr("src", unlockables.ships[3].imageOn)
-        $("#ship").css("opacity", "1")
-        localStorage.clear();
         localStorage.setItem("data", data);
         setTimeout(function() {
             $("#rocket").attr("src", unlockables.ships[3].image)

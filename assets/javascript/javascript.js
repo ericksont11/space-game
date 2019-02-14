@@ -1,15 +1,16 @@
 $(document).ready(function() {
     var counter = 0;
-    var shipID = "assets/images/rocket-up.png"
+    var shipID;
     var data;
+    data = localStorage.getItem("data")
+    shipID = localStorage.getItem("shipID");
     console.log(data)
-    if (!data) {
-        data = localStorage.getItem("data")
-        shipID = localStorage.getItem("shipID", shipID);
+    if (data) {
         console.log("yes")
     }
     else {
         data = 0
+        shipID = "assets/images/rocket-up.png"
         console.log("no")
     }
     console.log(data)
@@ -137,7 +138,7 @@ $(document).ready(function() {
         $("#popup-text").html(upper);
         if (text === "mars") {
             $("#planet-activities").html("This planet is accessible using a basic rocket! If you bring your botanist here you can start helping "+
-            "him grow plants by answering biology questions!" + data);
+            "him grow plants by answering biology questions!");
         }
     });
 
@@ -189,6 +190,7 @@ $(document).ready(function() {
     function startTravel () {
         $("#rocket").attr("src", unlockables.ships[3].imageOn)
         localStorage.setItem("data", data);
+        localStorage.setItem("shipID", shipID);
         setTimeout(function() {
             $("#rocket").attr("src", unlockables.ships[3].image)
         },x)

@@ -1,7 +1,9 @@
 $(document).ready(function() {
     var counter = 0;
-    var data = 150
-    var x =0
+    var data = localStorage.getItem("data")
+    var x = 0;
+
+    $("#CHARACTERS").html(localStorage.getItem("data"));
 
     var unlockables = {
         ships : [
@@ -41,6 +43,16 @@ $(document).ready(function() {
         ]
     }
 
+    $("#answer-one-box").on("click", function(event) {
+        data = parseFloat(data) + 100;
+        localStorage.setItem("data", data);
+        console.log(data)
+    });
+
+    $("#answer-two-box").on("click", function(event) {
+        window.location.href = "index.html"
+    });
+
     $("#ship-selection").on("click", function(event) {
         counter = 0;
         $(".ship-selection-menu").addClass("is-active");
@@ -48,7 +60,7 @@ $(document).ready(function() {
     });
 
     $("#mars").on("click", function(event) {
-        x=3900
+        x=3900;
         $("#rocket").removeClass();
         $("#rocket").addClass("animation-earth-to-mars");
         startTravel();
@@ -72,6 +84,7 @@ $(document).ready(function() {
         counter = 0
         $(".upgrade-selection-menu").addClass("is-active");
     });
+
     $("#character-selection").on("click", function(event) {
         counter = 0
         $(".character-selection-menu").addClass("is-active");
@@ -91,23 +104,33 @@ $(document).ready(function() {
     
 
     $(".planetImage").on("mouseenter", function() {
-        var text = this.id
-        console.log(text)
-        var upper = text.toUpperCase();
+        text = this.id
+        upper = text.toUpperCase();
         $(".popup").css("display", "inline-block");
         $("#popup-text").html(upper);
+        if (text === "mars") {
+            $("#planet-activities").html("This planet is accessible using a basic rocket! If you bring your botanist here you can start helping "+
+            "him grow plants here by answering biology questions!" + data);
+        }
     });
+
+
 
     $(".planetImage").on("mouseleave", function() {
         $(".popup").css("display", "none");
+        $("#planet-activities").html("");
     });
          
     //function cycles through the events
 
+    $("#character-populate").on("click", function() {
+        $("#scientist-selected").attr("src", "assets/images/botanist-space.png");
+        $(".character-populate").css("opacity", "0.1");
+    });
+
     function next () {
         if (counter < 2) {
             counter ++
-            console.log(unlockables.ships[counter].image)
             $("#ship").attr("src", unlockables.ships[counter].image)
             $("#ship-text").html(unlockables.ships[counter].name + ": REQUIRES " + unlockables.ships[counter].unlockAmount + " DATA TO UNLOCK")
             unlockScreen();
@@ -137,9 +160,17 @@ $(document).ready(function() {
 
     function startTravel () {
         $("#rocket").attr("src", unlockables.ships[3].imageOn)
+        $("#ship").css("opacity", "1")
+        localStorage.clear();
+        localStorage.setItem("data", data);
         setTimeout(function() {
             $("#rocket").attr("src", unlockables.ships[3].image)
         },x)
+        setTimeout(function() {
+            window.location.href = "planet.html"
+        },6000)
     }
+
+
 
 });

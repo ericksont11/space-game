@@ -26,11 +26,7 @@
     
 }
 
-#solar-body {
-    height:100vh;
-    background-color: brown;
-    width:100vw
-}
+
 
 #mercury {
     position: absolute;
@@ -288,6 +284,52 @@
     opacity: 0.5;
 }
 
+
+#background {
+    width:100vw;
+    background-image: url("../images/mars-crater.jpg");
+    background-size: cover;
+    height:100vh;
+}
+
+#answer-one-box {
+    background-color: red;
+    position: absolute;
+    margin-left: 10vw;
+    margin-top: 20vh;
+    height: 20vh;
+    width: 30vw;
+}
+
+#answer-two-box {
+    background-color: blue;
+    position: absolute;
+    margin-left: 60vw;
+    margin-top: 20vh;
+    height: 20vh;
+    width: 30vw;
+}
+
+#scientist-selected {
+    z-index: 10;
+    position:absolute;
+    margin-top: 0;
+    height: auto;
+    width: 10vw;
+    margin-top: 65vh;
+    margin-left: 75vw;
+}
+
+#greenhouse{
+    z-index: 9;
+    position:absolute;
+    margin-top: 0;
+    height: auto;
+    width: 15vw;
+    margin-top: 65vh;
+    margin-left: 10vw;
+}
+
 #scientist {
     left: 0;
     right: 0;
@@ -300,6 +342,67 @@
     opacity: 0.5;
 }
   
+#navbar {
+    top: 0;
+    position: fixed;
+    height: 15vh;
+    width: 100%;
+    background-color: mediumseagreen;
+}
+
+#ship-id {
+    z-index: 10;
+    position:absolute;
+    margin-top: 0;
+    height: auto;
+    width: 30vw;
+    margin-top: 30vh;
+    margin-left: 35vw;
+}
+
+#character-populate {
+    position:absolute;
+    margin-top: 0;
+    height: 10vh;
+    width:30vw;
+    margin-left: 10vw;
+    background-color: white;
+    color:mediumseagreen;
+    margin-top: 2.5vh;
+    text-align: center;
+    font-size: 2vh;
+}
+
+#upgrade-populate {
+    position:absolute;
+    margin-top: 0;
+    width: 30vw;
+    margin-left: 60vw;
+    height: 10vh;
+    background-color: white;
+    color:mediumseagreen;
+    margin-top: 2.5vh;
+    text-align: center;
+    font-size: 2vh;
+}
+.character-populate {
+    float:center;
+    position: relative;;
+    margin-top: 0;
+    height: 5vh;
+    width:3vw;
+    border: .2vh solid mediumseagreen;
+}
+
+.upgrade-populate {
+    float:center;
+    position: relative;;
+    margin-top: 0;
+    width: 3vw;
+    height: 5vh;
+    border: .2vh solid mediumseagreen;
+}
+
 .modal-display {
     width: 100%;
     height: 45vh;
@@ -326,7 +429,7 @@
 }
 
 #ship-text {
-    font-size: 1.5vw;
+    font-size: 2vh;
     text-align: center
 }
 

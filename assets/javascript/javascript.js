@@ -1,13 +1,14 @@
 $(document).ready(function() {
     var counter = 0;
     var shipID = "";
-    data = localStorage.getItem("data")
     var data;
+    localStorage.clear()
+    data = localStorage.getItem("data")
     console.log(data)
     if (data) {
-        console.log("yes")
         data = localStorage.getItem("data")
         shipID = localStorage.getItem("shipID");
+        console.log("yes")
     }
     else {
         data = 0

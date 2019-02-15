@@ -3,8 +3,6 @@
     padding: 0;
 }
 
-
-
 #rocket {
     position: absolute;
     top: 61.07%;
@@ -22,11 +20,8 @@
     transform: translateY(-50%) translateX(-50%);
     left: 58%;
     width: 8%;
-    height: auto;
-    
+    height: auto;  
 }
-
-
 
 #mercury {
     position: absolute;
@@ -45,6 +40,7 @@
     width: 3%;
     height: auto;
 }
+
 #earth {
     position: absolute;
     top: 61.07%;
@@ -111,12 +107,14 @@
 }
 
 #selection-menu {
-    width: 20%;
-    height:100%;
+    width: 20vw;
+    height:90%;
+    margin-top:10vh;
     position: absolute;
     left: 0;
     background-color:mediumseagreen;
 }
+
 #ship-selection {
     width: 90%;
     height:32%;
@@ -129,11 +127,11 @@
 }
 
 .selection-text {
-    background-color: white;
     color: mediumseagreen;
     text-align: center;
-    width: 100.1%;
+    width: 100.2%;
     margin-top:-.2vh;
+    margin-left:-.1%
 }
 
 .selection-img {
@@ -157,6 +155,7 @@
     border: white solid 1vh;
     position: relative;
 }
+
 #upgrade-selection {
     width: 90%;
     height:32%;
@@ -168,21 +167,31 @@
     position: relative;
 }
 
+#CHARACTERS {
+    background-color: white;
+    color: mediumseagreen;
+    font-weight: bold
+}
+
 .selected:hover {
     opacity: 0.5;
 }
+
 .upgrade-image {
     height: auto;
     width: 50%;
 }
+
 .character-image {
     height: auto;
     width: 30%;
 }
+
 .ship-image {
     height: auto;
     width: 80%;
 }
+
 .stars {
     background:#000 url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
     position: fixed;
@@ -299,6 +308,8 @@
     margin-top: 20vh;
     height: 20vh;
     width: 30vw;
+    z-index: 11;
+    display: none;
 }
 
 #answer-two-box {
@@ -308,12 +319,13 @@
     margin-top: 20vh;
     height: 20vh;
     width: 30vw;
+    z-index: 11;
+    display: none;
 }
 
 #scientist-selected {
     z-index: 10;
     position:absolute;
-    margin-top: 0;
     height: auto;
     width: 10vw;
     margin-top: 65vh;
@@ -360,61 +372,94 @@
     margin-left: 35vw;
 }
 
+#speech-bubble {
+    z-index: 10;
+    position:absolute;
+    height: auto;
+    width: 20vw;
+    margin-top: 46vh;
+    margin-left: 59vw; 
+    display: none;
+}
+
+#speech-bubble-text {
+    position:relative;
+    margin-top: 13%;
+    margin-left: 12%;
+    height: auto;
+    width: 90%;
+    color: mediumseagreen;
+    z-index: 12;
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+#speech-bubble-image {
+    position:absolute;
+    height: auto;
+    width: 100%;
+    color: mediumseagreen;
+    z-index: 12;
+}
+
 #character-populate {
     position:absolute;
     margin-top: 0;
-    height: 10vh;
+    height: 13vh;
     width:30vw;
-    margin-left: 10vw;
-    background-color: white;
-    color:mediumseagreen;
-    margin-top: 2.5vh;
+    margin-left: 20vw;
+    background-color: mediumseagreen;
+    color:white;
+    margin-top: 1vh;
     text-align: center;
     font-size: 2vh;
+    border: white solid .5vw;
 }
 
 #upgrade-populate {
     position:absolute;
     margin-top: 0;
-    width: 30vw;
+    height: 13vh;
+    width:30vw;
     margin-left: 60vw;
-    height: 10vh;
-    background-color: white;
-    color:mediumseagreen;
-    margin-top: 2.5vh;
+    background-color: mediumseagreen;
+    color:white;
+    margin-top: 1vh;
     text-align: center;
     font-size: 2vh;
+    border: white solid .5vw;
 }
 
 #resources-box {
     position:absolute;
     margin-top: 0;
-    width: 10vw;
-    margin-left: 45vw;
+    width: 20vw;
     height: 10vh;
-    background-color: white;
-    color:mediumseagreen;
-    margin-top: 2.5vh;
+    background-color: mediumseagreen;
+    color:white;
     text-align: center;
     font-size: 2vh;
+    font-weight: bold;
 }
 
 .character-populate {
     float:center;
-    position: relative;;
-    margin-top: 0;
-    height: 5vh;
+    position: relative;
+    margin-top: 1vh;
+    height: 6vh;
     width:3vw;
-    border: .2vh solid mediumseagreen;
+    background-color: gray;
+    border: .2vh solid white;
 }
 
 .upgrade-populate {
     float:center;
     position: relative;;
-    margin-top: 0;
+    margin-top: 1vh;
     width: 3vw;
-    height: 5vh;
-    border: .2vh solid mediumseagreen;
+    height: 6vh;
+    background-color: gray;
+    border: .2vh solid  white;
 }
 
 .modal-display {

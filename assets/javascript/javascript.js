@@ -1,21 +1,24 @@
 $(document).ready(function() {
-    var counter = 0;
+    var counter = 1;
     var shipID = "";
     var data;
-    localStorage.clear()
+    var xwingUnlocked = false;
+    var pelicanUnlocked = false;
+    var enterpriseUnlocked = false;
+
     data = localStorage.getItem("data")
-    console.log(data)
+
     if (data) {
         data = localStorage.getItem("data")
         shipID = localStorage.getItem("shipID");
-        console.log("yes")
+
     }
     else {
         data = 0
         shipID = "assets/images/rocket-up.png"
-        console.log("no")
+
     }
-    console.log(data)
+
     var x = 0;
 
     $("#data-text-box").html("DATA: " + data);
@@ -25,26 +28,28 @@ $(document).ready(function() {
     var unlockables = {
         ships : [
             {
+                name : "SPACE SHUTTLE",
+                image: "assets/images/rocket-up.png",
+                imageOn: "assets/images/rocket.png",
+                unlockAmount: 100,
+                },
+            {
             name : "X-WING",
             image: "assets/images/x-wing.png",
-            imageOn: "assets/images/x-wing-powered.png",
+            imageOn: "assets/images/x-wing-on.png",
             unlockAmount: 100,
             },
             {
             name : "PELICAN",
             image: "assets/images/pelican.png",
+            imageOn: "assets/images/pelican-on.png",
             unlockAmount: 150,
             },
             {
             name : "ENTERPRISE",
             image: "assets/images/enterprise.png",
+            imageOn: "assets/images/enterprise-on.png",
             unlockAmount: 200,
-            },
-            {
-            name : "SPACE SHUTTLE",
-            image: "assets/images/rocket-up.png",
-            imageOn: "assets/images/rocket.png",
-            unlockAmount: 100,
             },
         ],
         characters : [
@@ -72,7 +77,6 @@ $(document).ready(function() {
 
     $("#ship-selection").on("click", function(event) {
         counter = 0;
-        console.log(unlockables.ships[counter].image)
         $(".ship-selection-menu").addClass("is-active");
         unlockScreen();
     });
@@ -104,6 +108,7 @@ $(document).ready(function() {
     });
 
     $("#character-selection").on("click", function(event) {
+        localStorage.clear()
         counter = 0
         $(".character-selection-menu").addClass("is-active");
     });
@@ -122,14 +127,40 @@ $(document).ready(function() {
 
     $("#ship").on("click", function() {
         if (data >= unlockables.ships[counter].unlockAmount) {
+            if (unlockables.ships[counter].name === "X-WING") {
+                xwingUnlocked = true;
+            }
+            else if (unlockables.ships[counter].name === "PELICAN") {
+                pelicanUnlocked = true;
+            }
+            else if (unlockables.ships[counter].name === "ENTERPRISE") {
+                enterpriseUnlocked = true;
+            }
             $(".ship-selection-menu").removeClass("is-active");
             data = data - unlockables.ships[counter].unlockAmount
-            console.log(data)
             $("#rocket").attr("src", unlockables.ships[counter].image)
             shipID = unlockables.ships[counter].image
             localStorage.setItem("shipID", shipID);
         }
-        counter = 0
+        else if (unlockables.ships[counter].name === "X-WING" && xwingUnlocked === true) {
+            $(".ship-selection-menu").removeClass("is-active");
+            $("#rocket").attr("src", unlockables.ships[counter].image)
+            counter = 1
+        }
+        else if (unlockables.ships[counter].name === "PELICAN" && pelicanUnlocked === true) {
+            $(".ship-selection-menu").removeClass("is-active");
+            $("#rocket").attr("src", unlockables.ships[counter].image)
+            counter = 2
+        }
+        else if (unlockables.ships[counter].name === "ENTERPRISE" && enterpriseUnlocked === true) {
+            $(".ship-selection-menu").removeClass("is-active");
+            $("#rocket").attr("src", unlockables.ships[counter].image)
+            counter = 3
+        }
+        else {
+            counter = 0
+        }
+        $("#data-text-box").html("DATA: " + data);
     });
     
 
@@ -145,29 +176,43 @@ $(document).ready(function() {
     });
 
 
-
     $(".planetImage").on("mouseleave", function() {
         $(".popup").css("display", "none");
         $("#planet-activities").html("");
     });
          
-    //function cycles through the events
+    //function cycles through the upgrade choices
 
     $("#character-populate").on("click", function() {
         $("#scientist-selected").attr("src", "assets/images/botanist-space.png");
         $(".character-populate").css("opacity", "0.1");
+        setTimeout(function(){
+            $("#speech-bubble").css("display", "inline-block");
+            setTimeout(function(){
+                $("#speech-bubble").css("display", "none");
+            }, 2500)
+            setTimeout(function(){
+                $("#speech-bubble").css("display", "inline-block");
+                $("#speech-bubble-text").html("Answer some biology questions to help complete my research!");
+                setTimeout(function(){
+                    $("#speech-bubble").css("display", "none");
+                    setTimeout(function(){
+                        $("#answer-one-box").css("display", "inline-block");
+                        $("#answer-two-box").css("display", "inline-block");
+                    }, 1000)
+                }, 3000)
+            }, 3000)
+        }, 2000)
     });
 
     function next () {
-        if (counter < 2) {
+        if (counter < 4) {
             counter ++
-            $("#ship").attr("src", unlockables.ships[counter].image)
-            $("#ship-text").html(unlockables.ships[counter].name + ": REQUIRES " + unlockables.ships[counter].unlockAmount + " DATA TO UNLOCK")
             unlockScreen();
         }
     }
 
-    //function cycles back through the events
+    //function cycles back through the upgrade choices
 
     function prev() {
         if (counter > 0) {
@@ -181,20 +226,28 @@ $(document).ready(function() {
 
     function unlockScreen() {
         $("#ship").attr("src", unlockables.ships[counter].image)
-        if (data >= unlockables.ships[counter].unlockAmount) {
+
+        if ((xwingUnlocked === true && counter === 1) || (pelicanUnlocked === true && counter === 2) ||(enterpriseUnlocked === true && counter === 3)) {
+            $("#ship-text").html("YOU OWN THIS SHIP! CLICK TO PILOT!")
             $("#ship").css("opacity", "1")
+            return
+        }
+        else if (data >= unlockables.ships[counter].unlockAmount) {
+            $("#ship-text").html("PURCHASE " +unlockables.ships[counter].name + " FOR " + unlockables.ships[counter].unlockAmount + " DATA!")
+            $("#ship").css("opacity", "0.5")
         }
         else {
-            $("#ship").css("opacity", "0.5")
+            $("#ship-text").html(unlockables.ships[counter].name + ": REQUIRES " + unlockables.ships[counter].unlockAmount + " DATA TO UNLOCK")
+            $("#ship").css("opacity", "0.1")
         }
     }
 
     function startTravel () {
-        $("#rocket").attr("src", unlockables.ships[3].imageOn)
+        $("#rocket").attr("src", unlockables.ships[counter].imageOn)
         localStorage.setItem("data", data);
         localStorage.setItem("shipID", shipID);
         setTimeout(function() {
-            $("#rocket").attr("src", unlockables.ships[3].image)
+            $("#rocket").attr("src", unlockables.ships[counter].image)
         },x)
         setTimeout(function() {
             window.location.href = "planet.html"

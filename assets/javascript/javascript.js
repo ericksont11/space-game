@@ -213,6 +213,8 @@ $(document).ready(function() {
                     setTimeout(function(){
                         $("#answer-one-box").css("display", "inline-block");
                         $("#answer-two-box").css("display", "inline-block");
+                        $("#answer-div").css("display", "inline-block");
+                        $("#speech-bubble").css("display", "inline-block");
                     }, 1000)
                 }, 3000)
             }, 3000)
@@ -269,7 +271,5 @@ $(document).ready(function() {
             $("#rocket").attr("src", unlockables.ships[counter].image)
         },x)
     }
-
-
 
 });

@@ -301,13 +301,26 @@
     height:100vh;
 }
 
+#answer-div {
+    border: white solid .5vw;
+    background-color:mediumseagreen;
+    position: absolute;
+    margin-left: 20vw;
+    margin-top: 20vh;
+    height: 40vh;
+    width: 60vw;
+    z-index: 11;
+    border-radius: 3%;
+    display: none;
+}
+
 #answer-one-box {
     background-color: red;
     position: absolute;
-    margin-left: 10vw;
-    margin-top: 20vh;
+    margin-left: 5vw;
+    margin-top: 5vh;
     height: 20vh;
-    width: 30vw;
+    width: 20vw;
     z-index: 11;
     display: none;
 }
@@ -315,10 +328,10 @@
 #answer-two-box {
     background-color: blue;
     position: absolute;
-    margin-left: 60vw;
-    margin-top: 20vh;
+    margin-left: 35vw;
+    margin-top: 5vh;
     height: 20vh;
-    width: 30vw;
+    width: 20vw;
     z-index: 11;
     display: none;
 }

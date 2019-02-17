@@ -221,6 +221,29 @@ $(document).ready(function() {
         }, 2000)
     });
 
+    $("#upgrade-populate").on("click", function() {
+        var timer = 100;
+        margin = 0
+        for (var i = 0; i < 10; i++){
+            setTimeout(makeRocks, timer)
+            timer = timer + 100;
+        }
+        for (var i = 0; i < 9; i++){
+            if (i === 1) {
+                margin2 = 1.5
+            }
+            setTimeout(makeRocks2, timer)
+            timer = timer + 100;     
+        }
+        for (var i = 0; i < 8; i++){
+            if (i === 1) {
+                margin3 = 3
+            }
+            setTimeout(makeRocks3, timer)
+            timer = timer + 100;     
+        }
+    });
+
     function next () {
         if (counter < 3) {
             counter ++
@@ -270,6 +293,38 @@ $(document).ready(function() {
         setTimeout(function() {
             $("#rocket").attr("src", unlockables.ships[counter].image)
         },x)
+    }
+
+    function makeRocks () {
+        var rocks = $("<img>")
+        rocks.attr("src", "assets/images/rock.png")
+        rocks.addClass("falling-rocks")
+        $( "body" ).append(rocks)
+        rocks.addClass("rockslide")
+        rocks.css("margin-left", margin+"vw")
+        margin = margin + 3 
+    }
+
+    function makeRocks2 () {
+        var rocks = $("<img>")
+        rocks.attr("src", "assets/images/rock.png")
+        rocks.addClass("falling-rocks")
+        $("body").append(rocks)
+        rocks.addClass("rockslide2")
+        console.log(margin2)
+        rocks.css("margin-left", margin2+"vw")
+        margin2 = margin2 + 3 
+    }
+
+    function makeRocks3 () {
+        var rocks = $("<img>")
+        rocks.attr("src", "assets/images/rock.png")
+        rocks.addClass("falling-rocks")
+        $("body").append(rocks)
+        rocks.addClass("rockslide3")
+        console.log(margin3)
+        rocks.css("margin-left", margin3+"vw")
+        margin3 = margin3 + 3 
     }
 
 });

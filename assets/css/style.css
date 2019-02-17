@@ -505,6 +505,13 @@
     text-align: center
 }
 
+.falling-rocks {
+    height: auto;
+    width: 5vw;
+    margin-top:30vh;
+    position: absolute;
+}
+
 .animation-earth-to-mars {
     animation: animation-earth-to-mars 4000ms linear both;
     
@@ -539,5 +546,37 @@
     50% { top: 49%; left:77.9%; margin-top: -1.75%; transform:rotate(190deg) translateY(-50%) translateX(-50%);} 
     75% { top: 60%; left:74.9%; margin-top: -1.75%; transform:rotate(270deg) translateY(-50%) translateX(-50%);} 
     100% {  top: 61.07%; left:69.07%; margin-top: -1.75%; transform: rotate(360deg) translateY(-50%) translateX(-50%); }
+}
+    
+.rockslide {
+    animation: rockslide 2000ms linear both;
+    }
+    @keyframes rockslide { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(20vw)} 
+}
+
+.rockslide2 {
+    animation: rockslide2 2000ms linear both;
+    }
+    @keyframes rockslide2 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(17vw)} 
+}
+
+.rockslide3 {
+    animation: rockslide3 2000ms linear both;
+    }
+    @keyframes rockslide3 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(14vw)} 
+}
+
+.rockslide4 {
+    animation: rockslide4 2000ms linear both;
+    }
+    @keyframes rockslide4 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(11vw)} 
 }
     

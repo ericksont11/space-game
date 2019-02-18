@@ -1,5 +1,41 @@
-  
 
+#cave-floor {
+    height : 60vh;
+    margin-top: 40vh;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+}
+#treasure {
+    height: auto;
+    width: 10%;
+    bottom: 0;
+    margin-left: 10%;
+    transform: translateX(-50%);
+    position: absolute;
+}
+
+#pop-up {
+    position: absolute;
+    height: 20vh;
+    width: 20vw;
+    font-size: 4vmin;
+    margin-left: 40vw;
+    margin-top: 40vh;
+    z-index: 10;
+    background-color: antiquewhite;
+    border: black .2vmax solid;
+    text-align: center;
+    display: none;
+}
+
+#cave-floor {
+    height : 60vh;
+    margin-top: 40vh;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+}
 .falling-rocks {
     height: auto;
     width: 7vmax;

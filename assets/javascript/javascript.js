@@ -5,7 +5,8 @@ $(document).ready(function() {
     var xwingUnlocked = false;
     var pelicanUnlocked = false;
     var enterpriseUnlocked = false;
-    var count;
+    var hello = -1
+    var marginArray = []
 
     data = localStorage.getItem("data")
     if (data) {
@@ -220,21 +221,23 @@ $(document).ready(function() {
 
     $("#upgrade-populate").on("click", function() {
         var timer = 100;
-        count = 0
-        marginArray = [0,3,6,9,12,15,18,21,24,27]
-        for (var i = 0; i < 4; i++){
-            setTimeout(function () {
-                for (var j = 0; j < 10; j++){
-                    console.log(count)
-                    setTimeout(makeRocks, 100)
-                    timer = Math.floor((Math.random() * 1500));
+        kels = 1000
+        for (var a = 0; a < 6; a++){
+            console.log(marginArray)
+            console.log(hello)
+            
+            setTimeout(function() {
+                hello = hello + 1
+                for (var d = 0; d < 10; d++){
+                    marginArray = [0,3,6,9,12,15,18,21,24,27]
+                    setTimeout(makeRocks, timer)
+                    timer = Math.floor((Math.random() * 1000));
                 }
-                count = count + 1
                 marginArray = [0,3,6,9,12,15,18,21,24,27]
-            }, timer)
+            }, kels)
+            kels = kels + 1000
         }
         
-       
     });
 
     function next () {
@@ -289,15 +292,15 @@ $(document).ready(function() {
     }
 
     function makeRocks () {
-        console.log(count)
         var rocks = $("<img>")
         var number = Math.floor((Math.random() * marginArray.length))
         rocks.attr("src", "assets/images/rock.png")
         rocks.addClass("falling-rocks")
         $("body").append(rocks)
-        rocks.addClass("rockslide" + count)
+        rocks.addClass("rockslide"+hello)
         rocks.css("margin-left", marginArray[number]+"vw")
         marginArray.splice(number, 1)
     }
 
+  
 });

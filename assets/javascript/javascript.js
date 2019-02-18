@@ -222,7 +222,7 @@ $(document).ready(function() {
     $("#upgrade-populate").on("click", function() {
         var timer = 100;
         kels = 1000
-        for (var a = 0; a < 6; a++){
+        for (var a = 0; a < 11; a++){
             
             setTimeout(function() {
                 hello = hello + 1
@@ -299,6 +299,7 @@ $(document).ready(function() {
         $("body").append(rocks)
         rocks.addClass("rockslide"+hello)
         rocks.css("margin-left", marginArray[number]+"vw")
+        rocks.css("z-index", Math.floor((Math.random() * 3)))
         marginArray.splice(number, 1)
     }
 

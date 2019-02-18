@@ -557,42 +557,82 @@
 }
 
 .rockslide1 {
-    animation: rockslide1 2000ms linear both;
+    animation: rockslide1 1900ms linear both;
     }
     @keyframes rockslide1 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(29vw)} 
+    100% { transform: translateY(29.5vw)} 
 }
 
 .rockslide2 {
-    animation: rockslide2 2000ms linear both;
+    animation: rockslide2 1800ms linear both;
     }
     @keyframes rockslide2 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(26vw)} 
+    100% { transform: translateY(27vw)} 
 }
 
 .rockslide3 {
-    animation: rockslide3 2000ms linear both;
+    animation: rockslide3 1700ms linear both;
     }
     @keyframes rockslide3 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(23vw)} 
+    100% { transform: translateY(24.5vw)} 
 }
 
 .rockslide4 {
-    animation: rockslide4 2000ms linear both;
+    animation: rockslide4 1600ms linear both;
     }
     @keyframes rockslide4 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(21vw)} 
+    100% { transform: translateY(22vw)} 
 }
 
 .rockslide5 {
-    animation: rockslide5 2000ms linear both;
+    animation: rockslide5 1500ms linear both;
     }
     @keyframes rockslide5 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(18vw)} 
+    100% { transform: translateY(19.5vw)} 
+}
+
+.rockslide6 {
+    animation: rockslide6 1400ms linear both;
+    }
+    @keyframes rockslide6 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(17vw)} 
+}
+
+.rockslide7 {
+    animation: rockslide7 1300ms linear both;
+    }
+    @keyframes rockslide7 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(14.5vw)} 
+}
+
+.rockslide8 {
+    animation: rockslide8 1200ms linear both;
+    }
+    @keyframes rockslide8 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(12vw)} 
+}
+
+.rockslide9 {
+    animation: rockslide9 1100ms linear both;
+    }
+    @keyframes rockslide9 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(9.5vw)} 
+}
+
+.rockslide10 {
+    animation: rockslide10 1000ms linear both;
+    }
+    @keyframes rockslide10 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(7vw)} 
 }
     

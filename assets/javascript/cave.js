@@ -2,6 +2,7 @@ $(document).ready(function() {
 
 var hello = -1
 var marginArray = []
+var rightCount = 50;
 
 
 $("#collapse-btn").on("click", function() {
@@ -60,5 +61,26 @@ function makeRocks () {
     rocks.css("z-index", Math.floor((Math.random() * 3)+3))
     marginArray.splice(number, 1)
 }
+
+
+$(document).keydown(function( event ) {
+    if ( event.which == 37 || event.which == 65) {
+        if (rightCount > 35) {
+            event.preventDefault();
+            rightCount = rightCount - 0.5
+            $("#character").css('margin-left', rightCount+"vw");
+            console.log(rightCount)
+        }
+    }
+    if ( event.which == 39 || event.which == 68 ) {
+        if (rightCount < 65) {
+            event.preventDefault();
+            rightCount = rightCount + 0.5
+            $("#character").css('margin-left', rightCount+"vw");
+            console.log(rightCount)
+        }
+    }
+
+});
 
 });

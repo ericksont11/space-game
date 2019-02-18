@@ -1,8 +1,18 @@
-    
+  
+
 .falling-rocks {
     height: auto;
     width: 7vmax;
     margin-top:0vh;
+    position: absolute;
+}
+
+#character {
+    height: auto;
+    width: 10%;
+    bottom: 0;
+    margin-left: 50%;
+    transform: translateX(-50%);
     position: absolute;
 }
 

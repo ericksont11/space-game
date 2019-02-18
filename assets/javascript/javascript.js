@@ -5,23 +5,20 @@ $(document).ready(function() {
     var xwingUnlocked = false;
     var pelicanUnlocked = false;
     var enterpriseUnlocked = false;
+    var count;
 
     data = localStorage.getItem("data")
-    console.log(data)
     if (data) {
         data = localStorage.getItem("data")
         shipID = localStorage.getItem("shipID");
         xwingUnlocked = localStorage.getItem("xwingUnlocked")
         pelicanUnlocked = localStorage.getItem("pelicanUnlocked")
         enterpriseUnlocked = localStorage.getItem("enterpriseUnlocked")
-        console.log(enterpriseUnlocked)
     }
     else {
         data = 0
         shipID = "assets/images/rocket-up.png"
-        console.log("no")
     }
-    console.log(data)
     var x = 0;
 
     $("#data-text-box").html("DATA: " + data);
@@ -223,25 +220,21 @@ $(document).ready(function() {
 
     $("#upgrade-populate").on("click", function() {
         var timer = 100;
-        margin = 0
-        for (var i = 0; i < 10; i++){
-            setTimeout(makeRocks, timer)
-            timer = timer + 100;
+        count = 0
+        marginArray = [0,3,6,9,12,15,18,21,24,27]
+        for (var i = 0; i < 4; i++){
+            setTimeout(function () {
+                for (var j = 0; j < 10; j++){
+                    console.log(count)
+                    setTimeout(makeRocks, 100)
+                    timer = Math.floor((Math.random() * 1500));
+                }
+                count = count + 1
+                marginArray = [0,3,6,9,12,15,18,21,24,27]
+            }, timer)
         }
-        for (var i = 0; i < 9; i++){
-            if (i === 1) {
-                margin2 = 1.5
-            }
-            setTimeout(makeRocks2, timer)
-            timer = timer + 100;     
-        }
-        for (var i = 0; i < 8; i++){
-            if (i === 1) {
-                margin3 = 3
-            }
-            setTimeout(makeRocks3, timer)
-            timer = timer + 100;     
-        }
+        
+       
     });
 
     function next () {
@@ -296,35 +289,15 @@ $(document).ready(function() {
     }
 
     function makeRocks () {
+        console.log(count)
         var rocks = $("<img>")
-        rocks.attr("src", "assets/images/rock.png")
-        rocks.addClass("falling-rocks")
-        $( "body" ).append(rocks)
-        rocks.addClass("rockslide")
-        rocks.css("margin-left", margin+"vw")
-        margin = margin + 3 
-    }
-
-    function makeRocks2 () {
-        var rocks = $("<img>")
+        var number = Math.floor((Math.random() * marginArray.length))
         rocks.attr("src", "assets/images/rock.png")
         rocks.addClass("falling-rocks")
         $("body").append(rocks)
-        rocks.addClass("rockslide2")
-        console.log(margin2)
-        rocks.css("margin-left", margin2+"vw")
-        margin2 = margin2 + 3 
-    }
-
-    function makeRocks3 () {
-        var rocks = $("<img>")
-        rocks.attr("src", "assets/images/rock.png")
-        rocks.addClass("falling-rocks")
-        $("body").append(rocks)
-        rocks.addClass("rockslide3")
-        console.log(margin3)
-        rocks.css("margin-left", margin3+"vw")
-        margin3 = margin3 + 3 
+        rocks.addClass("rockslide" + count)
+        rocks.css("margin-left", marginArray[number]+"vw")
+        marginArray.splice(number, 1)
     }
 
 });

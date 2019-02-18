@@ -548,12 +548,20 @@
     100% {  top: 61.07%; left:69.07%; margin-top: -1.75%; transform: rotate(360deg) translateY(-50%) translateX(-50%); }
 }
     
-.rockslide {
-    animation: rockslide 2000ms linear both;
+.rockslide0 {
+    animation: rockslide0 2000ms linear both;
     }
-    @keyframes rockslide { 
+    @keyframes rockslide0 { 
     0% { transform: translateY(0vw)} 
     100% { transform: translateY(20vw)} 
+}
+
+.rockslide1 {
+    animation: rockslide1 2000ms linear both;
+    }
+    @keyframes rockslide1 { 
+    0% { transform: translateY(0vw)} 
+    100% { transform: translateY(17vw)} 
 }
 
 .rockslide2 {
@@ -561,21 +569,13 @@
     }
     @keyframes rockslide2 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(17vw)} 
+    100% { transform: translateY(14vw)} 
 }
 
 .rockslide3 {
     animation: rockslide3 2000ms linear both;
     }
     @keyframes rockslide3 { 
-    0% { transform: translateY(0vw)} 
-    100% { transform: translateY(14vw)} 
-}
-
-.rockslide4 {
-    animation: rockslide4 2000ms linear both;
-    }
-    @keyframes rockslide4 { 
     0% { transform: translateY(0vw)} 
     100% { transform: translateY(11vw)} 
 }

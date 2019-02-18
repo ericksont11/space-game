@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 var hello = -1
 var marginArray = []
-var rightCount = 49;
+var rightCount = 48;
 var layers = 0
 var collapse = false;
 
@@ -98,7 +98,7 @@ $(document).keydown(function( event ) {
             console.log(rightCount)
         }
     }
-    if (rightCount < 19 && collapse === false) {
+    if (rightCount < 15 && collapse === false) {
         collapse = true
         $("#pop-up").css("display", "inline-block")
     }

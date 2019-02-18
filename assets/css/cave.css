@@ -1,11 +1,24 @@
-
-#cave-floor {
+#rock-div {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+}
+.cave-floor {
     height : 60vh;
     margin-top: 40vh;
     width: 100%;
     position: absolute;
     z-index: -1;
 }
+
+.outside-floor {
+    height : 100vh;
+    margin-top: 0vh;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+}
+
 #treasure {
     height: auto;
     width: 10%;
@@ -47,7 +60,7 @@
     height: auto;
     width: 10%;
     bottom: 0;
-    margin-left: 50%;
+    left: 48%;
     position: absolute;
 }
 

@@ -553,7 +553,7 @@
     }
     @keyframes rockslide0 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(29vw)} 
+    100% { transform: translateY(32vw)} 
 }
 
 .rockslide1 {
@@ -561,7 +561,7 @@
     }
     @keyframes rockslide1 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(26vw)} 
+    100% { transform: translateY(29vw)} 
 }
 
 .rockslide2 {
@@ -569,7 +569,7 @@
     }
     @keyframes rockslide2 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(23vw)} 
+    100% { transform: translateY(26vw)} 
 }
 
 .rockslide3 {
@@ -577,7 +577,7 @@
     }
     @keyframes rockslide3 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(20vw)} 
+    100% { transform: translateY(23vw)} 
 }
 
 .rockslide4 {
@@ -585,7 +585,7 @@
     }
     @keyframes rockslide4 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(17vw)} 
+    100% { transform: translateY(21vw)} 
 }
 
 .rockslide5 {
@@ -593,6 +593,6 @@
     }
     @keyframes rockslide5 { 
     0% { transform: translateY(0vw)} 
-    100% { transform: translateY(14vw)} 
+    100% { transform: translateY(18vw)} 
 }
     

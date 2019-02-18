@@ -221,7 +221,7 @@ $(document).ready(function() {
 
     $("#upgrade-populate").on("click", function() {
         var timer = 100;
-        kels = 1000
+        kels = 1500
         for (var a = 0; a < 11; a++){
             
             setTimeout(function() {
@@ -230,11 +230,11 @@ $(document).ready(function() {
                     marginArray = [-3,0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,63,66,69,72,75,78,81,84,87,90,93,96]
                     console.log(marginArray.length)
                     setTimeout(makeRocks, timer)
-                    timer = Math.floor((Math.random() * 1000));
+                    timer = Math.floor((Math.random() * 1400));
                 }
                 marginArray = [-3,0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,63,66,69,72,75,78,81,84,87,90,93,96]
             }, kels)
-            kels = kels + 1000
+            kels = kels + 1500
         }
         
     });

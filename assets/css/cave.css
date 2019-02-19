@@ -194,3 +194,12 @@
     0% { transform: translateY(40vh)} 
     100% { transform: translateY(45vh)} 
 }
+
+.jump {
+    animation: jump 300ms linear both;
+    }
+    @keyframes jump { 
+    0% { transform: translateY(0vh)} 
+    50% { transform: translateY(-10vh)} 
+    100% { transform: translateY(0vh)} 
+}

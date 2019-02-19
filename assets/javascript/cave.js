@@ -8,6 +8,7 @@ var collapse = "notTriggered";
 var torch = false;
 var torchPicked;
 var money = false;
+var jump = false;
 
 // dynamically create the cave
 makeCave();
@@ -136,6 +137,8 @@ function openTreasure () {
 
 //moves the character and detects what image should be shown based on what the user has done
 $(document).keydown(function( event ) {
+
+    //checks if 'A' or the left arrow are pressed and moves accordingly
     if ( event.which == 37 || event.which == 65) {
 
         if (torch === false){
@@ -185,6 +188,7 @@ $(document).keydown(function( event ) {
         }
     }
     
+    //checks if 'D' or the right arrow are pressed and moves accordingly
     if ( event.which == 39 || event.which == 68 ) {
         if (torch === false){
             $("#character").attr("src", "assets/images/botanist-facing-right.png")
@@ -218,6 +222,20 @@ $(document).keydown(function( event ) {
             rightCount = 2
         }
     }
+
+    //checks if 'W' or the up arrow are pressed and jumps
+    if ( event.which == 38 || event.which == 87 ) {
+
+        if (jump === false)
+            $("#character").addClass("jump");
+                jump = true;
+            setTimeout(function() {
+                $("#character").removeClass("jump");
+                jump = false;
+            }, 500)
+      
+    }
+
 });
 
 });

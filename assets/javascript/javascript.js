@@ -92,6 +92,7 @@ $(document).ready(function() {
         },6000)
     });
 
+
     $("#earth").on("click", function(event) {
         x=5900
         $("#rocket").removeClass();
@@ -104,6 +105,9 @@ $(document).ready(function() {
         $("#rocket").removeClass();
         $("#rocket").addClass("animation-earth-to-venus");
         startTravel();
+        setTimeout(function() {
+            window.location.href = "cave.html"
+        },6000)
     });
 
     $("#upgrade-selection").on("click", function(event) {

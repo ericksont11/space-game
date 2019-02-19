@@ -7,6 +7,7 @@ var layers = 0
 var collapse = "notTriggered";
 var torch = false;
 var torchPicked;
+var money = false;
 
 makeCave();
 
@@ -56,8 +57,10 @@ $("#treasure").click(function(){
             $("p").html("You disable the trap!")
             setTimeout(function (){
                 openTreasure()
-            },1000)
-        },1000)
+            },2000)
+        },3000)
+        collapse = "avoided";
+        money = true;
     }
 })
 
@@ -121,7 +124,10 @@ $(document).keydown(function( event ) {
         if (torch === false){
             $("#character").attr("src", "assets/images/botanist-facing-left.png")
         }
-        else {
+        else if (collapse === "avoided" || money === true) {
+            $("#character").attr("src", "assets/images/botanist-facing-left-money.png")
+        }
+        else if (money === false) {
             $("#character").attr("src", "assets/images/botanist-facing-left-torch.png")
         }
         if (rightCount > 13 && (collapse === "notTriggered" || collapse === "true")) {
@@ -130,7 +136,7 @@ $(document).keydown(function( event ) {
             $("#character").css('left', rightCount + "%");
             console.log(rightCount)
         }
-        else if  (collapse === "notInCave") {
+        else if  (collapse === "notInCave" || collapse === "avoided") {
             event.preventDefault();
             rightCount = rightCount - 0.5
             $("#character").css('left', rightCount + "%");
@@ -159,10 +165,14 @@ $(document).keydown(function( event ) {
         if (torch === false){
             $("#character").attr("src", "assets/images/botanist-facing-right.png")
         }
-        else {
+        else if (collapse === "avoided" || money === true) {
+            $("#character").attr("src", "assets/images/botanist-facing-right-money.png")
+        }
+        else if (money === false) {
             $("#character").attr("src", "assets/images/botanist-facing-right-torch.png")
         }
-        if (rightCount < 90 && (collapse === "notTriggered" || collapse === "notInCave")) {
+        
+        if (rightCount < 90 && (collapse === "notTriggered" || collapse === "notInCave" || collapse === "avoided")) {
             event.preventDefault();
             rightCount = rightCount + 0.5
             $("#character").css('left', rightCount + "%");
@@ -172,7 +182,7 @@ $(document).keydown(function( event ) {
             rightCount = rightCount + 0.5
             $("#character").css('left', rightCount + "%");
         }
-        else if (rightCount > 85 && collapse === "notTriggered") {
+        else if (rightCount > 85 && (collapse === "notTriggered" || collapse === "avoided")) {
             $("#background").removeClass("cave-floor")
             $("#background").addClass("outside-floor")
             $("#background").attr("src", "assets/images/outside-floor.png")

@@ -9,9 +9,12 @@ var torch = false;
 var torchPicked;
 var money = false;
 
+// dynamically create the cave
 makeCave();
 
+//animation for the cave collapsing
 function rocksFall() {
+
     $("#torch4").css("display", "none")
     $("#pop-up").css("display", "inline-block")
     $("p").html("That may have been a mistake...")
@@ -21,6 +24,7 @@ function rocksFall() {
     }, 4000)
     var timer = 100;
     kels = 600
+
     for (var a = 0; a < 11; a++){
         setTimeout(function() {
             hello = hello + 1
@@ -36,7 +40,9 @@ function rocksFall() {
     }
 }
 
+//makes it so that when the treasure clicked it opens and either the cave collapses or not
 $("#treasure").click(function(){
+
     if (collapse === "waiting" && torch === false) {
         openTreasure()
         setTimeout(rocksFall, 1000);
@@ -50,6 +56,7 @@ $("#treasure").click(function(){
             },700)
         },2400)
     }
+
     else if (collapse === "waiting" && torch === true) {
         $("#pop-up").css("display", "inline-block")
         $("p").html("Wait! With your torch you can see the chest is booby-trapped!")
@@ -64,7 +71,9 @@ $("#treasure").click(function(){
     }
 })
 
+// picks up a torch when clicked on
 $(".torch").click(function(){
+
     if (torch === false){
         torchPicked = this.id
         console.log(torchPicked)
@@ -74,15 +83,18 @@ $(".torch").click(function(){
     }
 })
 
-
+//function that makes the cave layout
 function makeCave() {
     for (var a = 0; a < 9; a++) {
+
         if (a < 9) {
             marginArray = [-3,0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,60,63,66,69,72,75,78,81,84,87,90,93,96]
         }
+
         else {
         marginArray = [-3,0,3,6,9,12,15,18,21,24,69,72,75,78,81,84,87,90,93,96]
         }
+
         for (var d = 0; d < 34; d++){
             var pictureArray = ["assets/images/rock.png", "assets/images/rock-two.png", "assets/images/rock-three.png", "assets/images/rock-four.png", "assets/images/rock-five.png"]
             var rocks = $("<img>")
@@ -96,11 +108,12 @@ function makeCave() {
             rocks.css("margin-top", layers + "vh")
             marginArray.splice(number, 1)
         }
+
         layers = layers + 5
     }
 }
 
-
+//function that positions the rocks to fall
 function makeRocks () {
     var pictureArray = ["assets/images/rock.png", "assets/images/rock-two.png", "assets/images/rock-three.png", "assets/images/rock-four.png", "assets/images/rock-five.png"]
     var rocks = $("<img>")
@@ -114,34 +127,43 @@ function makeRocks () {
     marginArray.splice(number, 1)
 }
 
+
+//changes the treasure chest from closed to open
 function openTreasure () {
     $("#pop-up").css("display", "none")
     $("#treasure").attr("src", "assets/images/treasure-open.png")
 }
 
+//moves the character and detects what image should be shown based on what the user has done
 $(document).keydown(function( event ) {
     if ( event.which == 37 || event.which == 65) {
+
         if (torch === false){
             $("#character").attr("src", "assets/images/botanist-facing-left.png")
         }
+
         else if (collapse === "avoided" || money === true) {
             $("#character").attr("src", "assets/images/botanist-facing-left-money.png")
         }
+
         else if (money === false) {
             $("#character").attr("src", "assets/images/botanist-facing-left-torch.png")
         }
+
         if (rightCount > 13 && (collapse === "notTriggered" || collapse === "true")) {
             event.preventDefault();
             rightCount = rightCount - 0.5
             $("#character").css('left', rightCount + "%");
             console.log(rightCount)
         }
+
         else if  (collapse === "notInCave" || collapse === "avoided") {
             event.preventDefault();
             rightCount = rightCount - 0.5
             $("#character").css('left', rightCount + "%");
             console.log(rightCount)
         }
+
         if (rightCount < 3 && collapse === "notInCave") {
             $("#character").css("left", "98%")
             $("#background").removeClass("outside-floor")
@@ -156,11 +178,13 @@ $(document).keydown(function( event ) {
             layers = 0
             makeCave()
         }
+
         if (rightCount < 15 && collapse === "notTriggered") {
             collapse = "waiting"
             $("#pop-up").css("display", "inline-block")
         }
     }
+    
     if ( event.which == 39 || event.which == 68 ) {
         if (torch === false){
             $("#character").attr("src", "assets/images/botanist-facing-right.png")
@@ -194,8 +218,6 @@ $(document).keydown(function( event ) {
             rightCount = 2
         }
     }
-    
-
 });
 
 });

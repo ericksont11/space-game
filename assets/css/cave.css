@@ -4,13 +4,30 @@
     position: fixed;
 }
 .cave-floor {
-    height : 60vh;
-    margin-top: 40vh;
+    height : 100vh;
     width: 100%;
     position: absolute;
     z-index: -1;
 }
 
+.torch {
+    height: 15vh;
+    width: 3vw;
+    position: absolute;
+    margin-top: 70vh;
+}
+#torch {
+    margin-left: 25vw;
+}
+#torch2 {
+    margin-left: 45vw;
+}
+#torch3 {
+    margin-left: 65vw;
+}
+#torch4 {
+    margin-left: 85vw;
+}
 .outside-floor {
     height : 100vh;
     margin-top: 0vh;

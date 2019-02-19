@@ -5,10 +5,13 @@ var marginArray = []
 var rightCount = 48;
 var layers = 0
 var collapse = "notTriggered";
+var torch = false;
+var torchPicked;
 
 makeCave();
 
 function rocksFall() {
+    $("#torch4").css("display", "none")
     $("#pop-up").css("display", "inline-block")
     $("p").html("That may have been a mistake...")
     setTimeout(function() {
@@ -33,9 +36,38 @@ function rocksFall() {
 }
 
 $("#treasure").click(function(){
-    if (collapse === "waiting") {
+    if (collapse === "waiting" && torch === false) {
         openTreasure()
         setTimeout(rocksFall, 1000);
+        setTimeout(function (){
+            $("#character").attr("src", "assets/images/botanist-facing-right.png")
+            setTimeout(function (){
+                $("#character").attr("src", "assets/images/botanist-facing-left.png")
+                setTimeout(function (){
+                    $("#character").attr("src", "assets/images/botanist-facing-right.png")
+                },700)
+            },700)
+        },2400)
+    }
+    else if (collapse === "waiting" && torch === true) {
+        $("#pop-up").css("display", "inline-block")
+        $("p").html("Wait! With your torch you can see the chest is booby-trapped!")
+        setTimeout(function (){
+            $("p").html("You disable the trap!")
+            setTimeout(function (){
+                openTreasure()
+            },1000)
+        },1000)
+    }
+})
+
+$(".torch").click(function(){
+    if (torch === false){
+        torchPicked = this.id
+        console.log(torchPicked)
+        $("#"+ torchPicked).css("display", "none")
+        $("#character").attr("src", "assets/images/botanist-facing-left-torch.png")
+        torch = true;
     }
 })
 
@@ -80,12 +112,18 @@ function makeRocks () {
 }
 
 function openTreasure () {
-    $("#treasure").attr("src", "assets/images/treasure-open.png")
     $("#pop-up").css("display", "none")
+    $("#treasure").attr("src", "assets/images/treasure-open.png")
 }
 
 $(document).keydown(function( event ) {
     if ( event.which == 37 || event.which == 65) {
+        if (torch === false){
+            $("#character").attr("src", "assets/images/botanist-facing-left.png")
+        }
+        else {
+            $("#character").attr("src", "assets/images/botanist-facing-left-torch.png")
+        }
         if (rightCount > 13 && (collapse === "notTriggered" || collapse === "true")) {
             event.preventDefault();
             rightCount = rightCount - 0.5
@@ -105,6 +143,8 @@ $(document).keydown(function( event ) {
             $("#background").attr("src", "assets/images/cave-floor.png")
             $("#rock-div").empty()
             $("#treasure").css("display", "inline-block")
+            $(".torch").css("display", "inline-block")
+            $("#"+ torchPicked).css("display", "none")
             collapse = "notTriggered"
             rightCount = 98
             layers = 0
@@ -116,6 +156,12 @@ $(document).keydown(function( event ) {
         }
     }
     if ( event.which == 39 || event.which == 68 ) {
+        if (torch === false){
+            $("#character").attr("src", "assets/images/botanist-facing-right.png")
+        }
+        else {
+            $("#character").attr("src", "assets/images/botanist-facing-right-torch.png")
+        }
         if (rightCount < 90 && (collapse === "notTriggered" || collapse === "notInCave")) {
             event.preventDefault();
             rightCount = rightCount + 0.5
@@ -133,6 +179,7 @@ $(document).keydown(function( event ) {
             $("#rock-div").empty()
             $("#character").css("left", "2%")
             $("#treasure").css("display", "none")
+            $(".torch").css("display", "none")
             collapse = "notInCave"
             rightCount = 2
         }

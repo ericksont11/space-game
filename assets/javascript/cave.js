@@ -8,7 +8,16 @@ var collapse = "notTriggered";
 var torch = false;
 var torchPicked;
 var money = false;
+var topCount = 0;
+var timer = 0;
+var up = 0;
 var jump = false;
+var moving = false;
+var moveLeft;
+var moveRight;
+var keys = {38: false, 37: false, 39: false};
+var leftBlock = false
+var rightBlock = false
 
 // dynamically create the cave
 makeCave();
@@ -77,7 +86,6 @@ $(".torch").click(function(){
 
     if (torch === false){
         torchPicked = this.id
-        console.log(torchPicked)
         $("#"+ torchPicked).css("display", "none")
         $("#character").attr("src", "assets/images/botanist-facing-left-torch.png")
         torch = true;
@@ -135,37 +143,183 @@ function openTreasure () {
     $("#treasure").attr("src", "assets/images/treasure-open.png")
 }
 
+function goRight () {
+    leftBlock = false;
+    if (moving === false) {
+        moveRight = setInterval(function(){
+            rightCount = rightCount + 0.05
+            $("#character").css('left', rightCount + "%");
+            if (rightCount > 92 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided")) {
+                clearInterval(moveRight);
+                rightBlock = true;
+            }
+        },1)
+        moving = true;
+    }
+}
+
+function goLeft () {
+    rightBlock = false
+    if (moving === false) {
+        moveLeft = setInterval(function(){
+            rightCount = rightCount - 0.05
+            $("#character").css('left', rightCount + "%");
+            if (rightCount < 39 && rightCount > 38 && (collapse === "notTriggered" || collapse === "true")) {
+                    clearInterval(moveLeft);
+                    leftBlock = true;
+            }
+        },1)
+        moving = true;
+    }
+}
+
+
+
+$(document).keydown(function(e) {
+    if (e.keyCode in keys) {
+        keys[e.keyCode] = true;
+        if (keys[38] && keys[37]) {
+            if (jump === false && leftBlock === false)  {
+                jump = true;
+                timer = 0
+                topCount = 8
+                for (i=0; i < 21; i++) {
+                    if (i < 10) {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            up = 16 - topCount
+                            rightCount -= .1;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            topCount = topCount /2
+                        },timer)
+                    }
+                    else {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            topCount = topCount * 2
+                            up = 16 - topCount
+                            rightCount -= .1;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            if (up === 0) {
+                                setTimeout(function() {
+                                    jump = false;
+                                },200)  
+                            }
+                        },timer)
+                    }
+                }
+            }
+            if (jump === false && leftBlock === true)  {
+                jump = true;
+                timer = 0
+                topCount = 8
+                for (i=0; i < 17; i++) {
+                    if (i < 10) {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            up = 16 - topCount
+                            rightCount -= .1;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            topCount = topCount /2
+                        },timer)
+                    }
+                    else {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            topCount = topCount * 2
+                            up = 16 - topCount
+                            rightCount -= .1;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            if (up === 0) {
+                                setTimeout(function() {
+                                    jump = false;
+                                },200)  
+                            }
+                        },timer)
+                    }
+                    leftBlock = false
+                }
+            }
+        }
+        if (keys[38] && keys[39]) {
+            if (jump === false)  {
+                jump = true;
+                timer = 0
+                topCount = 8
+                for (i=0; i < 21; i++) {
+                    if (i < 10) {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            up = 16 - topCount
+                            rightCount += .1;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            topCount = topCount /2
+                        },timer)
+                    }
+                    else {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            topCount = topCount * 2
+                            up = 16 - topCount
+                            rightCount += .1;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            if (up === 0) {
+                                setTimeout(function() {
+                                    jump = false;
+                                },200)  
+                            }
+                        },timer)
+                    }
+                }
+            }
+        }
+    }
+})
+
+$(document).keyup(function(e) {
+    if (e.keyCode in keys) {
+        keys[e.keyCode] = false;
+        if (!keys[37]) {
+            clearInterval(moveLeft);
+        }
+        if (!keys[39]) {
+            clearInterval(moveRight);
+        }
+        if (!keys[39] && !keys[37]) {
+            moving = false
+        }
+        
+        
+    }
+});
+
+
 //moves the character and detects what image should be shown based on what the user has done
 $(document).keydown(function( event ) {
 
     //checks if 'A' or the left arrow are pressed and moves accordingly
-    if ( event.which == 37 || event.which == 65) {
-
+    if ( event.which === 37 || event.which === 65) {
+        if (leftBlock === false) {
+            goLeft();
+            console.log(leftBlock)
+        }
         if (torch === false){
             $("#character").attr("src", "assets/images/botanist-facing-left.png")
         }
-
         else if (collapse === "avoided" || money === true) {
             $("#character").attr("src", "assets/images/botanist-facing-left-money.png")
         }
-
         else if (money === false) {
             $("#character").attr("src", "assets/images/botanist-facing-left-torch.png")
         }
 
-        if (rightCount > 13 && (collapse === "notTriggered" || collapse === "true")) {
-            event.preventDefault();
-            rightCount = rightCount - 0.5
-            $("#character").css('left', rightCount + "%");
-            console.log(rightCount)
-        }
 
-        else if  (collapse === "notInCave" || collapse === "avoided") {
-            event.preventDefault();
-            rightCount = rightCount - 0.5
-            $("#character").css('left', rightCount + "%");
-            console.log(rightCount)
-        }
 
         if (rightCount < 3 && collapse === "notInCave") {
             $("#character").css("left", "98%")
@@ -190,6 +344,9 @@ $(document).keydown(function( event ) {
     
     //checks if 'D' or the right arrow are pressed and moves accordingly
     if ( event.which == 39 || event.which == 68 ) {
+        if (rightBlock === false) {
+            goRight();
+        }
         if (torch === false){
             $("#character").attr("src", "assets/images/botanist-facing-right.png")
         }
@@ -199,18 +356,8 @@ $(document).keydown(function( event ) {
         else if (money === false) {
             $("#character").attr("src", "assets/images/botanist-facing-right-torch.png")
         }
-        
-        if (rightCount < 90 && (collapse === "notTriggered" || collapse === "notInCave" || collapse === "avoided")) {
-            event.preventDefault();
-            rightCount = rightCount + 0.5
-            $("#character").css('left', rightCount + "%");
-        }
-        else if (rightCount < 60 && collapse === "true") {
-            event.preventDefault();
-            rightCount = rightCount + 0.5
-            $("#character").css('left', rightCount + "%");
-        }
-        else if (rightCount > 85 && (collapse === "notTriggered" || collapse === "avoided")) {
+
+        if (rightCount > 85 && (collapse === "notTriggered" || collapse === "avoided")) {
             $("#background").removeClass("cave-floor")
             $("#background").addClass("outside-floor")
             $("#background").attr("src", "assets/images/outside-floor.png")
@@ -221,20 +368,10 @@ $(document).keydown(function( event ) {
             collapse = "notInCave"
             rightCount = 2
         }
+
     }
 
-    //checks if 'W' or the up arrow are pressed and jumps
-    if ( event.which == 38 || event.which == 87 ) {
-
-        if (jump === false)
-            $("#character").addClass("jump");
-                jump = true;
-            setTimeout(function() {
-                $("#character").removeClass("jump");
-                jump = false;
-            }, 500)
-      
-    }
+    
 
 });
 

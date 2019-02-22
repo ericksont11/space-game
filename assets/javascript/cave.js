@@ -159,7 +159,7 @@ function goRight () {
                 $("#character").css('bottom', up + "%");
                 jump = false
                 onBlock = false
-}
+            }
         },1)
         moving = true;
     }
@@ -174,6 +174,12 @@ function goLeft () {
             if (rightCount < 39 && rightCount > 38 && (collapse === "notTriggered" || collapse === "true")) {
                     clearInterval(moveLeft);
                     leftBlock = true;
+            }
+            else if (rightCount < 20 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided") && onBlock === true) {
+                up = 0
+                $("#character").css('bottom', up + "%");
+                jump = false
+                onBlock = false
             }
         },1)
         moving = true;

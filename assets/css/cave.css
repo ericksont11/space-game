@@ -1,10 +1,41 @@
-#box {
+#boulder {
     bottom: 0;
     height: 15vh;
     width: 20vw;
     position: absolute;
     z-index: 15;
     margin-left: 20vw;
+}
+
+#outside-boulder-base1 {
+    bottom: 0;
+    height: 15vh;
+    width: 20vw;
+    position: absolute;
+    z-index: 15;
+    margin-left: 50vw;
+    display: none;
+}
+
+#outside-boulder-base2 {
+    bottom: 0;
+    height: 15vh;
+    width: 20vw;
+    position: absolute;
+    z-index: 15;
+    margin-left: 70vw;
+    display: none;
+}
+
+#outside-boulder-top {
+    bottom: 0;
+    height: 15vh;
+    width: 20vw;
+    position: absolute;
+    z-index: 15;
+    margin-left: 60vw;
+    margin-bottom: 14vh;
+    display: none;
 }
 
 #rock-div {

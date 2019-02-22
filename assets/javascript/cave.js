@@ -21,6 +21,7 @@ var rightBlock = false
 var onBlock = false
 var leftEdge = false
 var rightEdge = false
+var baseBlock = false
 
 // dynamically create the cave
 makeCave();
@@ -147,10 +148,11 @@ function changePage() {
     $("#character").css("left", "2%")
     $("#treasure").css("display", "none")
     $(".torch").css("display", "none")
-    $("#box").css("display", "none")
+    $("#boulder").css("display", "none")
+    $("#outside-boulder-base").css("display", "inline-block")
+    $("#outside-boulder-top").css("display", "inline-block")
     collapse = "notInCave"
     rightCount = 2
-
 }
 
 //changes the treasure chest from closed to open
@@ -170,7 +172,12 @@ function goRight () {
                 clearInterval(moveRight);
                 rightEdge= true;
             }
-            if (rightCount > 85 && (collapse === "notTriggered" || collapse === "waiting" || collapse === "avoided")) {
+            else if (rightCount > 45 && rightCount < 46 && collapse === "notInCave" ) {
+                clearInterval(moveRight);
+                rightBlock = true;
+                baseBlock = true;
+            }
+            else if (rightCount > 85 && (collapse === "notTriggered" || collapse === "waiting" || collapse === "avoided")) {
                 clearInterval(moveRight);
                 changePage();
             }
@@ -178,11 +185,12 @@ function goRight () {
                 clearInterval(moveRight);
                 rightBlock = true;
             }
-            else if (rightCount > 37 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided" || collapse === "waiting" || collapse === "true") && onBlock === true) {
+            else if (rightCount > 37 && (collapse === "notTriggered" || collapse === "avoided" || collapse === "waiting" || collapse === "true") && onBlock === true) {
                 up = 0
                 $("#character").css('bottom', up + "%");
                 jump = false
                 onBlock = false
+                console.log("onBlock: " + onBlock)
             }
             else if (rightCount > 60 && collapse === "true") {
                 clearInterval(moveRight);
@@ -213,6 +221,7 @@ function goLeft () {
                 $("#character").css('bottom', up + "%");
                 jump = false
                 onBlock = false
+                console.log("onBlock: " + onBlock)
             }
         },1)
         moving = true;
@@ -288,12 +297,14 @@ $(document).keydown(function(e) {
                         },timer)
                     }
                     leftBlock = false
-                    console.log(up)
-                    onBlock = true;
+                    if (baseBlock === false) {
+                        onBlock = true;
+                    }
+                    console.log("onBlock: " + onBlock)
                 }
             }
         }
-        if (keys[38] && keys[39]) {
+        else if (keys[38] && keys[39]) {
             if (jump === false && rightBlock === true) {
                 jump = true;
                 timer = 0
@@ -325,12 +336,50 @@ $(document).keydown(function(e) {
                         },timer)
                     }
                     rightBlock = false
-                    console.log(up)
-                    onBlock = true;
+                    if (baseBlock === false) {
+                        onBlock = true;
+                    }
+                    console.log("onBlock: " + onBlock)
                 }
             }
-        
-            if (jump === false && rightBlock === false && rightEdge === false)  {
+            else if (jump === false && rightBlock === true && baseBlock === true) {
+                jump = true;
+                timer = 0
+                topCount = 8
+                for (i=0; i < 18; i++) {
+                    if (i < 10) {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            up = 16 - topCount
+                            rightCount += .3;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            topCount = topCount /2
+                        },timer)
+                    }
+                    else {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            topCount = topCount * 2
+                            up = 16 - topCount
+                            rightCount += .3;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            if (up === 0) {
+                                setTimeout(function() {
+                                    jump = false;
+                                },200)  
+                            }
+                        },timer)
+                    }
+                    rightBlock = false
+                    if (baseBlock === false) {
+                        onBlock = true;
+                    }
+                    console.log("onBlock: " + onBlock)
+                }
+            }
+            else if (jump === false && rightBlock === false && rightEdge === false)  {
                 jump = true;
                 timer = 0
                 topCount = 8
@@ -391,7 +440,6 @@ $(document).keydown(function( event ) {
     if ( event.which === 37 || event.which === 65) {
         if (leftBlock === false && leftEdge === false) {
             goLeft();
-            console.log(leftBlock)
         }
         if (torch === false){
             $("#character").attr("src", "assets/images/botanist-facing-left.png")

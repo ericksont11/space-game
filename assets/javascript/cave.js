@@ -19,6 +19,8 @@ var keys = {38: false, 37: false, 39: false};
 var leftBlock = false
 var rightBlock = false
 var onBlock = false
+var leftEdge = false
+var rightEdge = false
 
 // dynamically create the cave
 makeCave();
@@ -137,6 +139,19 @@ function makeRocks () {
     marginArray.splice(number, 1)
 }
 
+function changePage() {
+    $("#background").removeClass("cave-floor")
+    $("#background").addClass("outside-floor")
+    $("#background").attr("src", "assets/images/outside-floor.png")
+    $("#rock-div").empty()
+    $("#character").css("left", "2%")
+    $("#treasure").css("display", "none")
+    $(".torch").css("display", "none")
+    $("#box").css("display", "none")
+    collapse = "notInCave"
+    rightCount = 2
+
+}
 
 //changes the treasure chest from closed to open
 function openTreasure () {
@@ -145,20 +160,33 @@ function openTreasure () {
 }
 
 function goRight () {
+    leftEdge = false
     leftBlock = false;
     if (moving === false) {
         moveRight = setInterval(function(){
             rightCount = rightCount + 0.05
             $("#character").css('left', rightCount + "%");
-            if (rightCount > 92 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided")) {
+            if (rightCount > 92 && collapse === "notInCave" ) {
+                clearInterval(moveRight);
+                rightEdge= true;
+            }
+            if (rightCount > 85 && (collapse === "notTriggered" || collapse === "waiting" || collapse === "avoided")) {
+                clearInterval(moveRight);
+                changePage();
+            }
+            else if (rightCount > 12 && rightCount < 13 && (collapse === "notTriggered" || collapse === "avoided" || collapse === "waiting" || collapse === "true")) {
                 clearInterval(moveRight);
                 rightBlock = true;
             }
-            else if (rightCount > 40 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided") && onBlock === true) {
+            else if (rightCount > 37 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided" || collapse === "waiting" || collapse === "true") && onBlock === true) {
                 up = 0
                 $("#character").css('bottom', up + "%");
                 jump = false
                 onBlock = false
+            }
+            else if (rightCount > 60 && collapse === "true") {
+                clearInterval(moveRight);
+                rightBlock = true;
             }
         },1)
         moving = true;
@@ -166,16 +194,21 @@ function goRight () {
 }
 
 function goLeft () {
+    rightEdge = false
     rightBlock = false
     if (moving === false) {
         moveLeft = setInterval(function(){
             rightCount = rightCount - 0.05
             $("#character").css('left', rightCount + "%");
-            if (rightCount < 39 && rightCount > 38 && (collapse === "notTriggered" || collapse === "true")) {
+            if (rightCount < 39 && rightCount > 38 && (collapse === "notTriggered" || collapse === "true" || collapse === "waiting" || collapse === "avoided")) {
                     clearInterval(moveLeft);
                     leftBlock = true;
             }
-            else if (rightCount < 20 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided") && onBlock === true) {
+            else if (rightCount < 3 && (collapse === "notTriggered" || collapse === "true" || collapse === "waiting" || collapse === "avoided")) {
+                    clearInterval(moveLeft);
+                    leftEdge = true;
+            }
+            else if (rightCount < 14 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided" || collapse === "waiting" || collapse === "true") && onBlock === true) {
                 up = 0
                 $("#character").css('bottom', up + "%");
                 jump = false
@@ -192,7 +225,7 @@ $(document).keydown(function(e) {
     if (e.keyCode in keys) {
         keys[e.keyCode] = true;
         if (keys[38] && keys[37]) {
-            if (jump === false && leftBlock === false)  {
+            if (jump === false && leftBlock === false && leftEdge === false)  {
                 jump = true;
                 timer = 0
                 topCount = 8
@@ -228,12 +261,12 @@ $(document).keydown(function(e) {
                 jump = true;
                 timer = 0
                 topCount = 8
-                for (i=0; i < 17; i++) {
+                for (i=0; i < 18; i++) {
                     if (i < 10) {
                         timer = timer + 20
                         setTimeout(function() {
                             up = 16 - topCount
-                            rightCount -= .1;
+                            rightCount -= .3;
                             $("#character").css('bottom', up + "%");
                             $("#character").css('left', rightCount + "%");
                             topCount = topCount /2
@@ -244,7 +277,7 @@ $(document).keydown(function(e) {
                         setTimeout(function() {
                             topCount = topCount * 2
                             up = 16 - topCount
-                            rightCount -= .1;
+                            rightCount -= .3;
                             $("#character").css('bottom', up + "%");
                             $("#character").css('left', rightCount + "%");
                             if (up === 0) {
@@ -261,7 +294,43 @@ $(document).keydown(function(e) {
             }
         }
         if (keys[38] && keys[39]) {
-            if (jump === false)  {
+            if (jump === false && rightBlock === true) {
+                jump = true;
+                timer = 0
+                topCount = 8
+                for (i=0; i < 18; i++) {
+                    if (i < 10) {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            up = 16 - topCount
+                            rightCount += .3;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            topCount = topCount /2
+                        },timer)
+                    }
+                    else {
+                        timer = timer + 20
+                        setTimeout(function() {
+                            topCount = topCount * 2
+                            up = 16 - topCount
+                            rightCount += .3;
+                            $("#character").css('bottom', up + "%");
+                            $("#character").css('left', rightCount + "%");
+                            if (up === 0) {
+                                setTimeout(function() {
+                                    jump = false;
+                                },200)  
+                            }
+                        },timer)
+                    }
+                    rightBlock = false
+                    console.log(up)
+                    onBlock = true;
+                }
+            }
+        
+            if (jump === false && rightBlock === false && rightEdge === false)  {
                 jump = true;
                 timer = 0
                 topCount = 8
@@ -320,7 +389,7 @@ $(document).keydown(function( event ) {
 
     //checks if 'A' or the left arrow are pressed and moves accordingly
     if ( event.which === 37 || event.which === 65) {
-        if (leftBlock === false) {
+        if (leftBlock === false && leftEdge === false) {
             goLeft();
             console.log(leftBlock)
         }
@@ -345,6 +414,7 @@ $(document).keydown(function( event ) {
             $("#treasure").css("display", "inline-block")
             $(".torch").css("display", "inline-block")
             $("#"+ torchPicked).css("display", "none")
+            $("#box").css("display", "inline-block")
             collapse = "notTriggered"
             rightCount = 98
             layers = 0
@@ -359,7 +429,7 @@ $(document).keydown(function( event ) {
     
     //checks if 'D' or the right arrow are pressed and moves accordingly
     if ( event.which == 39 || event.which == 68 ) {
-        if (rightBlock === false) {
+        if (rightBlock === false && rightEdge === false) {
             goRight();
         }
         if (torch === false){
@@ -372,17 +442,6 @@ $(document).keydown(function( event ) {
             $("#character").attr("src", "assets/images/botanist-facing-right-torch.png")
         }
 
-        if (rightCount > 85 && (collapse === "notTriggered" || collapse === "avoided")) {
-            $("#background").removeClass("cave-floor")
-            $("#background").addClass("outside-floor")
-            $("#background").attr("src", "assets/images/outside-floor.png")
-            $("#rock-div").empty()
-            $("#character").css("left", "2%")
-            $("#treasure").css("display", "none")
-            $(".torch").css("display", "none")
-            collapse = "notInCave"
-            rightCount = 2
-        }
 
     }
 

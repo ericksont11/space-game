@@ -1,7 +1,6 @@
 #box {
     bottom: 0;
     height: 15vh;
-    background-color: red;
     width: 20vw;
     position: absolute;
     z-index: 15;

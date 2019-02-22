@@ -18,6 +18,7 @@ var moveRight;
 var keys = {38: false, 37: false, 39: false};
 var leftBlock = false
 var rightBlock = false
+var onBlock = false
 
 // dynamically create the cave
 makeCave();
@@ -153,6 +154,12 @@ function goRight () {
                 clearInterval(moveRight);
                 rightBlock = true;
             }
+            else if (rightCount > 40 && (collapse === "notTriggered" ||collapse === "notInCave" || collapse === "avoided") && onBlock === true) {
+                up = 0
+                $("#character").css('bottom', up + "%");
+                jump = false
+                onBlock = false
+}
         },1)
         moving = true;
     }
@@ -242,6 +249,8 @@ $(document).keydown(function(e) {
                         },timer)
                     }
                     leftBlock = false
+                    console.log(up)
+                    onBlock = true;
                 }
             }
         }

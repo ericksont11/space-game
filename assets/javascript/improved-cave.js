@@ -29,6 +29,9 @@ var bounce = 0
 var onTop = false
 var treasureClicked = false;
 var isFiring = false
+var isLeft = true;
+var isRight = false;
+var enemyKilled = false;
 
 // dynamically create the cave
 makeCave();
@@ -256,7 +259,7 @@ function goRight () {
 
 
 function fireball() {
-    if (isFiring === false) {
+    if (isFiring === false && isLeft === true) {
         isFiring = true
         $("#fireball").css("display", "inline-block")
         fireballLocation = rightCount + 5
@@ -264,7 +267,24 @@ function fireball() {
             fireballLocation = fireballLocation + 0.3
             $("#fireball").css('left', fireballLocation + "%");
             console.log(fireballLocation)
-            if (fireballLocation > 76) {
+            if ((fireballLocation > 76 && enemyKilled === false) || fireballLocation > 100) {
+                $("#enemy").css("display", "none")
+                $("#fireball").css("display", "none")
+                clearInterval(fireballMoving)
+                isFiring = false
+                enemyKilled = true
+            }
+        },10)
+    }
+    if (isFiring === false && isRight === true) {
+        isFiring = true
+        $("#fireball").css("display", "inline-block")
+        fireballLocation = rightCount - 5
+        fireballMoving = setInterval(function(){
+            fireballLocation = fireballLocation - 0.3
+            $("#fireball").css('left', fireballLocation + "%");
+            console.log(fireballLocation)
+            if (fireballLocation > 76 || fireballLocation < 0) {
                 $("#enemy").css("display", "none")
                 $("#fireball").css("display", "none")
                 clearInterval(fireballMoving)
@@ -497,6 +517,8 @@ $(document).keydown(function( event ) {
 
     //checks if 'A' or the left arrow are pressed and moves accordingly
     if ( event.which === 37 || event.which === 65) {
+        isRight = true;
+        isLeft = false;
         if (leftBlock === false && leftEdge === false) {
             goLeft();
         }
@@ -540,6 +562,8 @@ $(document).keydown(function( event ) {
     
     //checks if 'D' or the right arrow are pressed and moves accordingly
     if ( event.which == 39 || event.which == 68 ) {
+        isRight = false;
+        isLeft = true;
         if (rightBlock === false && rightEdge === false) {
             goRight();
         }

@@ -36,6 +36,7 @@ var enemyLocation = 60
 
 // dynamically create the cave
 makeCave();
+enemyMovement();
 
 
 //makes it so that when the treasure clicked it opens and either the cave collapses or not
@@ -113,6 +114,38 @@ function makeCave() {
         }
 
         layers = layers + 5
+    }
+}
+
+function enemyMovement () {
+    timer = 100
+    for (x=0; x < 1000; x++) {
+        if (x % 2 === 0) {
+            enemyRight()
+        }
+        else {
+            enemyLeft()
+        }
+    }
+}
+
+function enemyRight () {
+    for (y = 0; y < 100; y++) {
+        timer = timer + 10
+        setTimeout(function() {
+            enemyLocation = enemyLocation + 0.1
+            $("#enemy").css('left', enemyLocation + "%");
+        }, timer)
+    }
+}
+
+function enemyLeft() {
+    for (y = 0; y < 100; y++) {
+        timer = timer + 10
+        setTimeout(function() {
+            enemyLocation = enemyLocation - 0.1
+            $("#enemy").css('left', enemyLocation + "%");
+        }, timer)
     }
 }
 

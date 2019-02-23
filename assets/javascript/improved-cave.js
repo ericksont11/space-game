@@ -547,7 +547,9 @@ $(document).keydown(function( event ) {
             $("#outside-boulder-base1").css("display", "none")
             $("#outside-boulder-base2").css("display", "none")
             $("#outside-boulder-top").css("display", "none")
-            $("#enemy").css("display", "inline-block")
+            if (enemyKilled === false) {
+                $("#enemy").css("display", "inline-block")
+            }
             collapse = "notTriggered"
             rightCount = 85
             layers = 0

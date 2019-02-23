@@ -32,7 +32,7 @@ var isFiring = false
 var isLeft = true;
 var isRight = false;
 var enemyKilled = false;
-var enemyLocation = 40;
+var enemyLocation = 55;
 var fireballLocation = rightCount;
 
 // dynamically create the cave
@@ -133,7 +133,7 @@ function enemyMovement () {
 }
 
 function enemyRight () {
-    for (y = 0; y < 100; y++) {
+    for (y = 0; y < 200; y++) {
         timer = timer + 10
         setTimeout(function() {
             enemyLocation = enemyLocation + 0.1
@@ -143,7 +143,7 @@ function enemyRight () {
 }
 
 function enemyLeft() {
-    for (y = 0; y < 100; y++) {
+    for (y = 0; y < 200; y++) {
         timer = timer + 10
         setTimeout(function() {
             enemyLocation = enemyLocation - 0.1

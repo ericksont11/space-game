@@ -135,16 +135,8 @@
     height: auto;
     width: 10%;
     bottom: 0;
-    left: 60%;
+    left: 40%;
     position: absolute;
-}
-
-.red-rocks {
-    height: auto;
-    width: 5vw;
-    margin-top:0vh;
-    position: absolute;
-    background-color:red
 }
 
 #collapse-btn {

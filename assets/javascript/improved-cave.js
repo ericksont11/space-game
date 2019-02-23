@@ -32,7 +32,8 @@ var isFiring = false
 var isLeft = true;
 var isRight = false;
 var enemyKilled = false;
-var enemyLocation = 60
+var enemyLocation = 40;
+var fireballLocation = rightCount;
 
 // dynamically create the cave
 makeCave();
@@ -117,6 +118,8 @@ function makeCave() {
     }
 }
 
+
+//functions to make the enemy move
 function enemyMovement () {
     timer = 100
     for (x=0; x < 1000; x++) {
@@ -299,9 +302,10 @@ function fireball() {
         fireballLocation = rightCount + 5
         fireballMoving = setInterval(function(){
             fireballLocation = fireballLocation + 0.3
-            $("#fireball").css('left', fireballLocation + "%");
             console.log(fireballLocation)
-            if (fireballLocation > 50 && enemyKilled === false && fireballLocation < enemyLocation) {
+            console.log(rightCount)
+            $("#fireball").css('left', fireballLocation + "%");
+            if (fireballLocation > enemyLocation && enemyKilled === false && rightCount < enemyLocation) {
                 $("#enemy").css("display", "none")
                 $("#fireball").css("display", "none")
                 clearInterval(fireballMoving)
@@ -322,9 +326,10 @@ function fireball() {
         fireballLocation = rightCount 
         fireballMoving = setInterval(function(){
             fireballLocation = fireballLocation - 0.3
-            $("#fireball").css('left', fireballLocation + "%");
             console.log(fireballLocation)
-            if (fireballLocation > 50 && enemyKilled === false && fireballLocation < enemyLocation) {
+            console.log(rightCount)
+            $("#fireball").css('left', fireballLocation + "%");
+            if (fireballLocation < (enemyLocation+5) && enemyKilled === false && rightCount > enemyLocation) {
                 $("#enemy").css("display", "none")
                 $("#fireball").css("display", "none")
                 clearInterval(fireballMoving)
@@ -344,9 +349,7 @@ function fireball() {
 
 //function that makes the user move to the left
 function goLeft () {
-    console.log(rightCount)
-    console.log(collapse)
-    console.log(onBlock)
+
     //these variables are set to false because if the user moves right they're no longer blocked by and edge or rock
     rightEdge = false
     rightBlock = false
@@ -490,8 +493,7 @@ $(document).keydown(function(e) {
 
         //checks if both the left and up keys are currently pressed (has to be simultaneously to trigger)
         if (keys[38] && keys[37]) {
-            console.log(baseBlock)
-            console.log(leftBlock)
+
             if (jump === false && leftBlock === false && leftEdge === false && onBlock === false)  {
                 drop = 21
                 distance = 0.1
@@ -517,8 +519,7 @@ $(document).keydown(function(e) {
 
          //checks if both the right and up keys are currently pressed (has to be simultaneously to trigger)
         else if (keys[38] && keys[39]) {
-            console.log(baseBlock)
-            console.log(rightBlock)
+
             if (jump === false && rightBlock === false && rightEdge === false  && onBlock === false) {
                 drop = 21
                 distance = -0.1

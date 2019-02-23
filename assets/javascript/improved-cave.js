@@ -28,6 +28,7 @@ var baseBlock = false
 var bounce = 0
 var onTop = false
 var treasureClicked = false;
+var isFiring = false
 
 // dynamically create the cave
 makeCave();
@@ -138,6 +139,7 @@ function changePage() {
     $("#outside-boulder-base1").css("display", "inline-block")
     $("#outside-boulder-base2").css("display", "inline-block")
     $("#outside-boulder-top").css("display", "inline-block")
+    $("#enemy").css("display", "none")
     collapse = "notInCave"
     rightCount = 2
 }
@@ -250,6 +252,27 @@ function goRight () {
         },1)
         moving = true;
     }
+}
+
+
+function fireball() {
+    if (isFiring === false) {
+        isFiring = true
+        $("#fireball").css("display", "inline-block")
+        fireballLocation = rightCount + 5
+        fireballMoving = setInterval(function(){
+            fireballLocation = fireballLocation + 0.3
+            $("#fireball").css('left', fireballLocation + "%");
+            console.log(fireballLocation)
+            if (fireballLocation > 76) {
+                $("#enemy").css("display", "none")
+                $("#fireball").css("display", "none")
+                clearInterval(fireballMoving)
+                isFiring = false
+            }
+        },10)
+    }
+
 }
 
 //function that makes the user move to the left
@@ -502,6 +525,7 @@ $(document).keydown(function( event ) {
             $("#outside-boulder-base1").css("display", "none")
             $("#outside-boulder-base2").css("display", "none")
             $("#outside-boulder-top").css("display", "none")
+            $("#enemy").css("display", "inline-block")
             collapse = "notTriggered"
             rightCount = 85
             layers = 0
@@ -535,5 +559,12 @@ $(document).keydown(function( event ) {
     
 
 });
+
+
+$(document).keydown(function( event ) {
+    if ( event.which === 32) {
+        fireball()
+    }
+})
 
 });

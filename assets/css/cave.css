@@ -121,6 +121,23 @@
     position: absolute;
 }
 
+#fireball {
+    height: auto;
+    width: 4%;
+    bottom: 6%;
+    left: 55%;
+    position: absolute;
+    display: none
+}
+
+#enemy {
+    height: auto;
+    width: 10%;
+    bottom: 0;
+    left: 76%;
+    position: absolute;
+}
+
 .red-rocks {
     height: auto;
     width: 5vw;

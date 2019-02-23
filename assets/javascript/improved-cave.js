@@ -32,6 +32,7 @@ var isFiring = false
 var isLeft = true;
 var isRight = false;
 var enemyKilled = false;
+var enemyLocation = 60
 
 // dynamically create the cave
 makeCave();
@@ -267,25 +268,38 @@ function fireball() {
             fireballLocation = fireballLocation + 0.3
             $("#fireball").css('left', fireballLocation + "%");
             console.log(fireballLocation)
-            if ((fireballLocation > 76 && enemyKilled === false) || fireballLocation > 100) {
+            if (fireballLocation > 50 && enemyKilled === false && fireballLocation < enemyLocation) {
                 $("#enemy").css("display", "none")
                 $("#fireball").css("display", "none")
                 clearInterval(fireballMoving)
                 isFiring = false
                 enemyKilled = true
             }
+            else if (fireballLocation > 100)
+            {
+                $("#fireball").css("display", "none")
+                clearInterval(fireballMoving)
+                isFiring = false
+            }
         },10)
     }
     if (isFiring === false && isRight === true) {
         isFiring = true
         $("#fireball").css("display", "inline-block")
-        fireballLocation = rightCount - 5
+        fireballLocation = rightCount 
         fireballMoving = setInterval(function(){
             fireballLocation = fireballLocation - 0.3
             $("#fireball").css('left', fireballLocation + "%");
             console.log(fireballLocation)
-            if (fireballLocation > 76 || fireballLocation < 0) {
+            if (fireballLocation > 50 && enemyKilled === false && fireballLocation < enemyLocation) {
                 $("#enemy").css("display", "none")
+                $("#fireball").css("display", "none")
+                clearInterval(fireballMoving)
+                isFiring = false
+                enemyKilled = true
+            }
+            else if (fireballLocation < 0)
+            {
                 $("#fireball").css("display", "none")
                 clearInterval(fireballMoving)
                 isFiring = false

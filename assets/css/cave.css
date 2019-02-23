@@ -127,14 +127,15 @@
     bottom: 6%;
     left: 55%;
     position: absolute;
-    display: none
+    display: none;
+    z-index: 20
 }
 
 #enemy {
     height: auto;
     width: 10%;
     bottom: 0;
-    left: 76%;
+    left: 50%;
     position: absolute;
 }
 

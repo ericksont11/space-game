@@ -28,12 +28,16 @@ var baseBlock = false
 var bounce = 0
 var onTop = false
 var treasureClicked = false;
-var isFiring = false
 var isLeft = true;
 var isRight = false;
 var enemyKilled = false;
 var enemyLocation = 55;
-var fireballLocation = rightCount;
+var firedLocation;
+var fireHeight;
+var fireballLocation = 0;
+var fireCounter = -1;
+var interval;
+var fireArray = []
 
 // dynamically create the cave
 makeCave();
@@ -134,7 +138,7 @@ function enemyMovement () {
 
 function enemyRight () {
     for (y = 0; y < 200; y++) {
-        timer = timer + 10
+        timer = timer + 15
         setTimeout(function() {
             enemyLocation = enemyLocation + 0.1
             $("#enemy").css('left', enemyLocation + "%");
@@ -144,7 +148,7 @@ function enemyRight () {
 
 function enemyLeft() {
     for (y = 0; y < 200; y++) {
-        timer = timer + 10
+        timer = timer + 15
         setTimeout(function() {
             enemyLocation = enemyLocation - 0.1
             $("#enemy").css('left', enemyLocation + "%");
@@ -295,57 +299,78 @@ function goRight () {
 }
 
 
+
 function fireball() {
-    if (isFiring === false && isLeft === true) {
-        isFiring = true
-        $("#fireball").css("display", "inline-block")
-        fireballLocation = rightCount + 5
-        fireballMoving = setInterval(function(){
-            fireballLocation = fireballLocation + 0.3
-            console.log(fireballLocation)
-            console.log(rightCount)
-            $("#fireball").css('left', fireballLocation + "%");
-            if (fireballLocation > enemyLocation && enemyKilled === false && rightCount < enemyLocation) {
-                $("#enemy").css("display", "none")
-                $("#fireball").css("display", "none")
-                clearInterval(fireballMoving)
-                isFiring = false
-                enemyKilled = true
-            }
-            else if (fireballLocation > 100)
-            {
-                $("#fireball").css("display", "none")
-                clearInterval(fireballMoving)
-                isFiring = false
-            }
-        },10)
+    clearInterval(interval)
+    fireCounter++
+    fireArray.push(fireCounter)
+    console.log(fireArray[0])
+
+    if (isLeft === true ){
+   
+
+            $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
+
+
+            $('body').append('<div id ="test"></div>')
+
+            firedLocation = rightCount + 6
+
+            interval = setInterval(function () {
+                console.log("hey")
+                p = $( "#fireball"+fireArray[0] );
+                position = p.position();
+                fireballLocation = (position.left / window.innerWidth) * 100
+                if (fireballLocation > enemyLocation && enemyKilled === false) {
+                    $("#enemy").remove()
+                    $( "#fireball"+fireArray[0] ).remove()
+                    enemyKilled = true
+                    clearInterval(interval)
+                    enemyLocation = 100
+                    fireArray.shift()
+                }
+                else if (fireballLocation > (firedLocation + 20)) {
+                    clearInterval(interval)
+                    $( "#fireball"+fireArray[0] ).remove()
+                    fireArray.shift()
+                    console.log(fireArray)
+                }
+
+            },10)
+            
+
+
+            $("#fireball"+fireCounter).css('left', firedLocation + "%");
+            $("#fireball"+fireCounter).css('bottom', fireHeight + "%");
+            $("#fireball"+fireCounter).addClass('fireRight');
+            $("#fireball"+fireCounter).css('left', firedLocation + "%");
+        
+    
     }
-    if (isFiring === false && isRight === true) {
-        isFiring = true
-        $("#fireball").css("display", "inline-block")
-        fireballLocation = rightCount 
-        fireballMoving = setInterval(function(){
-            fireballLocation = fireballLocation - 0.3
-            console.log(fireballLocation)
-            console.log(rightCount)
-            $("#fireball").css('left', fireballLocation + "%");
-            if (fireballLocation < (enemyLocation+5) && enemyKilled === false && rightCount > enemyLocation) {
-                $("#enemy").css("display", "none")
-                $("#fireball").css("display", "none")
-                clearInterval(fireballMoving)
-                isFiring = false
-                enemyKilled = true
-            }
-            else if (fireballLocation < 0)
-            {
-                $("#fireball").css("display", "none")
-                clearInterval(fireballMoving)
-                isFiring = false
-            }
-        },10)
+    
+    if (isRight === true) {
+
+        firedLocation = rightCount - 1
+        $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
+
+        $("#fireball"+fireCounter).css('left', firedLocation + "%");
+        $("#fireball"+fireCounter).css('bottom', fireHeight + "%");
+        $("#fireball"+fireCounter).addClass('fireLeft');
+
+
+        if (fireballLocation < (enemyLocation+5) && enemyKilled === false && rightCount > enemyLocation) {
+            $("#enemy").css("display", "none")
+            enemyKilled = true
+        }
+        else if (fireballLocation < 0)
+        {
+
+        }
+
     }
 
 }
+
 
 //function that makes the user move to the left
 function goLeft () {
@@ -467,6 +492,8 @@ function dropDown () {
                         baseBlock = false
                         onTop = false
                         bounce = 0
+                        fireHeight = 20
+
                     },200)  
                 }
                 else if (counter2 === 7) {
@@ -477,6 +504,8 @@ function dropDown () {
                         onBlock = false
                         onTop = false
                         bounce = 0
+                        fireHeight = 6
+
                     },200)  
                 }
             },timer)
@@ -498,6 +527,7 @@ $(document).keydown(function(e) {
                 drop = 21
                 distance = 0.1
                 jumping()
+                fireHeight = 6
             }
             else if (jump === false && leftBlock === true && baseBlock === false)  {
                 drop = 18
@@ -505,6 +535,7 @@ $(document).keydown(function(e) {
                 jumping()
                 leftBlock = false
                 onBlock = true;
+                fireHeight = 20
             }
             else if (jump === false && leftBlock === true  && baseBlock === true) {
                 drop = 18
@@ -514,6 +545,7 @@ $(document).keydown(function(e) {
                 leftBlock = false
                 onBlock = true;
                 onTop = true;
+                fireHeight = 34
             }
         }
 
@@ -524,6 +556,8 @@ $(document).keydown(function(e) {
                 drop = 21
                 distance = -0.1
                 jumping()
+                fireHeight = 6
+            
             }
             else if (jump === false && rightBlock === true && baseBlock === false) {
                 drop = 18
@@ -531,6 +565,8 @@ $(document).keydown(function(e) {
                 jumping()
                 rightBlock = false
                 onBlock = true;
+                fireHeight = 20;
+              
             }
             else if (jump === false && rightBlock === true  && baseBlock === true) {
                 drop = 18
@@ -540,6 +576,8 @@ $(document).keydown(function(e) {
                 rightBlock = false
                 onBlock = true;
                 onTop = true;
+                fireHeight = 34
+               
             }
         }
     }
@@ -567,6 +605,7 @@ $(document).keydown(function( event ) {
     if ( event.which === 37 || event.which === 65) {
         isRight = true;
         isLeft = false;
+        
         if (leftBlock === false && leftEdge === false) {
             goLeft();
         }
@@ -612,6 +651,7 @@ $(document).keydown(function( event ) {
     
     //checks if 'D' or the right arrow are pressed and moves accordingly
     if ( event.which == 39 || event.which == 68 ) {
+        
         isRight = false;
         isLeft = true;
         if (rightBlock === false && rightEdge === false) {

@@ -121,14 +121,20 @@
     position: absolute;
 }
 
-#fireball {
+.fireball {
     height: auto;
     width: 4%;
     bottom: 6%;
-    left: 55%;
     position: absolute;
-    display: none;
     z-index: 20
+}
+#test {
+    height: 4%;
+    width: 4%;
+    bottom: 25%;
+    position: absolute;
+    z-index: 25;
+    background-color: blue;
 }
 
 #enemy {
@@ -137,24 +143,6 @@
     bottom: 0;
     left: 55%;
     position: absolute;
-}
-
-#collapse-btn {
-    width: 20vw;
-    margin-left:30vw;
-    height: 30vh;
-    margin-top: 35vh;
-    background-color: red;
-    position:absolute;
-}
-
-#roof-btn {
-    width: 20vw;
-    margin-left:50vw;
-    height: 30vh;
-    margin-top: 35vh;
-    background-color: blue;
-    position:absolute;
 }
 
 .rockslide0 {
@@ -245,11 +233,20 @@
     100% { transform: translateY(45vh)} 
 }
 
-.jump {
-    animation: jump 500ms linear both;
+.fireRight {
+    animation: fireRight 1000ms linear both;
     }
-    @keyframes jump { 
-    0% { transform: translateY(0vh)} 
-    50% { transform: translateY(-20vh)} 
-    100% { transform: translateY(0vh)} 
+    @keyframes fireRight { 
+    0% { transform: translateX(0vw)} 
+    98% { transform: translateX(24.5vw); opacity: 1} 
+    100% { transform: translateX(25vw); opacity: 0} 
+}
+
+.fireLeft {
+    animation: fireLeft 1000ms linear both;
+    }
+    @keyframes fireLeft { 
+    0% { transform: translateX(0vw)} 
+    98% { transform: translateX(-24.5vw); opacity: 1} 
+    100% { transform: translateX(-25vw); opacity: 0} 
 }

@@ -308,14 +308,12 @@ function fireball() {
 
     if (isLeft === true ){
    
-
             $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
-
 
             firedLocation = rightCount + 6
 
-            interval = setInterval(function () {
-                console.log("hey")
+            var interval = setInterval(function () {
+
                 p = $( "#fireball"+fireArray[0] );
                 position = p.position();
                 fireballLocation = (position.left / window.innerWidth) * 100
@@ -326,6 +324,7 @@ function fireball() {
                     clearInterval(interval)
                     enemyLocation = 100
                     fireArray.shift()
+                    console.log(fireArray)
                 }
                 else if (fireballLocation > (firedLocation + 20)) {
                     clearInterval(interval)

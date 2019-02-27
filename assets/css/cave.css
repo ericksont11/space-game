@@ -128,14 +128,6 @@
     position: absolute;
     z-index: 20
 }
-#test {
-    height: 4%;
-    width: 4%;
-    bottom: 25%;
-    position: absolute;
-    z-index: 25;
-    background-color: blue;
-}
 
 #enemy {
     height: auto;

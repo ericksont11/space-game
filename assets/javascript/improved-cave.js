@@ -312,8 +312,6 @@ function fireball() {
             $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
 
 
-            $('body').append('<div id ="test"></div>')
-
             firedLocation = rightCount + 6
 
             interval = setInterval(function () {
@@ -331,7 +329,7 @@ function fireball() {
                 }
                 else if (fireballLocation > (firedLocation + 20)) {
                     clearInterval(interval)
-                    $( "#fireball"+fireArray[0] ).remove()
+                    $( "#fireball"+fireArray[0]).remove()
                     fireArray.shift()
                     console.log(fireArray)
                 }

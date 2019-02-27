@@ -303,6 +303,7 @@ function goRight () {
 function fireball() {
     clearInterval(interval)
     fireCounter++
+    console.log(fireCounter)
     fireArray.push(fireCounter)
     console.log(fireArray[0])
 
@@ -317,7 +318,7 @@ function fireball() {
                 p = $( "#fireball"+fireArray[0] );
                 position = p.position();
                 fireballLocation = (position.left / window.innerWidth) * 100
-                if (fireballLocation > enemyLocation && enemyKilled === false) {
+                if (fireballLocation > enemyLocation && enemyKilled === false && rightCount < enemyLocation) {
                     $("#enemy").remove()
                     $( "#fireball"+fireArray[0] ).remove()
                     enemyKilled = true
@@ -336,7 +337,6 @@ function fireball() {
             },10)
             
 
-
             $("#fireball"+fireCounter).css('left', firedLocation + "%");
             $("#fireball"+fireCounter).css('bottom', fireHeight + "%");
             $("#fireball"+fireCounter).addClass('fireRight');
@@ -345,24 +345,41 @@ function fireball() {
     
     }
     
-    if (isRight === true) {
+    if (isRight === true ){
+    
+            $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
 
-        firedLocation = rightCount - 1
-        $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
+            firedLocation = rightCount - 1
 
-        $("#fireball"+fireCounter).css('left', firedLocation + "%");
-        $("#fireball"+fireCounter).css('bottom', fireHeight + "%");
-        $("#fireball"+fireCounter).addClass('fireLeft');
+            var interval = setInterval(function () {
 
+                p = $( "#fireball"+fireArray[0] );
+                position = p.position();
+                fireballLocation = (position.left / window.innerWidth) * 100
+                if (fireballLocation < enemyLocation && enemyKilled === false && rightCount > enemyLocation) {
+                    $("#enemy").remove()
+                    $( "#fireball"+fireArray[0] ).remove()
+                    enemyKilled = true
+                    clearInterval(interval)
+                    enemyLocation = 100
+                    fireArray.shift()
+                    console.log(fireArray)
+                }
+                else if (fireballLocation < (firedLocation - 20)) {
+                    clearInterval(interval)
+                    $( "#fireball"+fireArray[0]).remove()
+                    fireArray.shift()
+                    console.log(fireArray)
+                }
 
-        if (fireballLocation < (enemyLocation+5) && enemyKilled === false && rightCount > enemyLocation) {
-            $("#enemy").css("display", "none")
-            enemyKilled = true
-        }
-        else if (fireballLocation < 0)
-        {
+            },10)
+            
 
-        }
+            $("#fireball"+fireCounter).css('left', firedLocation + "%");
+            $("#fireball"+fireCounter).css('bottom', fireHeight + "%");
+            $("#fireball"+fireCounter).addClass('fireLeft');
+            $("#fireball"+fireCounter).css('left', firedLocation + "%");
+        
 
     }
 

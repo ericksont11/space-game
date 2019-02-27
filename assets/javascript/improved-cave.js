@@ -15,7 +15,7 @@ var jump = false;
 var moving = false;
 var moveLeft;
 var moveRight;
-var keys = {38: false, 37: false, 39: false};
+var keys = {38: false, 37: false, 39: false, 32: false};
 var leftBlock = false
 var rightBlock = false
 var onBlock = false
@@ -389,7 +389,6 @@ function goRight () {
 
 function fireball() {
 
-    console.log(fireHeight)
     clearInterval(interval)
     fireCounter++
     fireArray.push(fireCounter)
@@ -679,8 +678,15 @@ $(document).keydown(function(e) {
             }
 
             //checks if both the right and up keys are currently pressed (has to be simultaneously to trigger)
+            if (keys[38] && keys[39] && keys[32]) {
+                    fireball()
+            }
+
+                
+
+
             else if (keys[38] && keys[39]) {
-                console.log(keys[38])
+                console.log("left")
                 if (jump === false && rightBlock === false && rightEdge === false  && onBlock === false) {
                     drop = 21
                     distance = -0.1

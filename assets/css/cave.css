@@ -86,7 +86,7 @@
 }
 
 #pop-up {
-    position: absolute;
+    position: fixed;
     height: 20vh;
     width: 20vw;
     font-size: 4vmin;
@@ -134,6 +134,13 @@
     width: 10%;
     bottom: 0;
     left: 55%;
+    position: absolute;
+}
+
+#bat {
+    height: auto;
+    width: 10%;
+    left: 40%;
     position: absolute;
 }
 

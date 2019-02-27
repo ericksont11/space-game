@@ -32,12 +32,15 @@ var isLeft = true;
 var isRight = false;
 var enemyKilled = false;
 var enemyLocation = 55;
+var batLocation = 20;
 var firedLocation;
-var fireHeight;
+var fireHeight = 6;
 var fireballLocation = 0;
 var fireCounter = -1;
-var interval;
 var fireArray = []
+var gameOver = false;
+var batKilled = false;
+
 
 // dynamically create the cave
 makeCave();
@@ -126,7 +129,7 @@ function makeCave() {
 //functions to make the enemy move
 function enemyMovement () {
     timer = 100
-    for (x=0; x < 1000; x++) {
+    for (var x=0; x < 100; x++) {
         if (x % 2 === 0) {
             enemyRight()
         }
@@ -137,24 +140,63 @@ function enemyMovement () {
 }
 
 function enemyRight () {
-    for (y = 0; y < 200; y++) {
+    for (var y = 0; y < 200; y++) {
         timer = timer + 15
-        setTimeout(function() {
-            enemyLocation = enemyLocation + 0.1
-            $("#enemy").css('left', enemyLocation + "%");
-        }, timer)
+        if (collapse === "true" || collapse === "notInCave") {
+                maxId = setTimeout(function() {
+                checkLife()
+                batLocation = batLocation + 0.3
+                $("#bat").css('bottom', batLocation + "%")
+            }, timer) 
+        }
+        else {
+                maxId = setTimeout(function() {
+                checkLife()
+                enemyLocation = enemyLocation + 0.1
+                $("#enemy").css('left', enemyLocation + "%")
+            }, timer)
+        }
     }
 }
 
 function enemyLeft() {
-    for (y = 0; y < 200; y++) {
+    for (var y = 0; y < 200; y++) {
         timer = timer + 15
-        setTimeout(function() {
-            enemyLocation = enemyLocation - 0.1
-            $("#enemy").css('left', enemyLocation + "%");
-        }, timer)
+        if (collapse === "true" || collapse === "notInCave") {
+                maxId = setTimeout(function() {
+                checkLife()
+                batLocation = batLocation - 0.3
+                $("#bat").css('bottom', batLocation + "%")
+            }, timer) 
+        }
+        else {
+                maxId = setTimeout(function() {
+                checkLife()
+                enemyLocation = enemyLocation - 0.1
+                $("#enemy").css('left', enemyLocation + "%")
+            }, timer)
+        }
     }
 }
+
+
+
+function checkLife () {
+
+    if ((enemyKilled === false && enemyLocation < (rightCount + 7) && rightCount < (enemyLocation + 7)) || gameOver === true) {
+        $("#pop-up").css("display", "inline-block")
+        $("p").html("GAME OVER!")
+        $('#character').attr('src','assets/images/skeleton.png')
+        gameOver = true
+    }
+    if ((batKilled === false && batLocation < 25 && rightCount > 33 && rightCount < 50.2 && (collapse === "notInCave" || collapse === "true")) || gameOver === true) {
+        $("#pop-up").css("display", "inline-block")
+        $("p").html("GAME OVER!")
+        $('#character').attr('src','assets/images/skeleton.png')
+        gameOver = true
+    }
+}
+
 
 //function that positions the rocks to fall
 function makeRocks () {
@@ -172,11 +214,15 @@ function makeRocks () {
 
 //function that changes what elements are on the page when the user walks out of the cave
 function changePage() {
+    timer = 100
+    collapse = "notInCave"
+    rightCount = 10
+
     $("#background").removeClass("cave-floor")
     $("#background").addClass("outside-floor")
     $("#background").attr("src", "assets/images/outside-floor.png")
     $("#rock-div").empty()
-    $("#character").css("left", "2%")
+    $("#character").css("left", "10%")
     $("#treasure").css("display", "none")
     $(".torch").css("display", "none")
     $("#boulder").css("display", "none")
@@ -184,8 +230,49 @@ function changePage() {
     $("#outside-boulder-base2").css("display", "inline-block")
     $("#outside-boulder-top").css("display", "inline-block")
     $("#enemy").css("display", "none")
-    collapse = "notInCave"
-    rightCount = 2
+
+    if (batKilled === false) {
+        $('body').append('<img id="bat" src="assets/images/bat.png" />')
+        batLocation = 20
+    }
+
+    for(var i=0; i < maxId; i++) { 
+        clearTimeout(i);
+    }
+    
+    enemyMovement()
+
+}
+
+function cavePage () {
+   
+    $("#character").css("left", "85%")
+    $("#background").removeClass("outside-floor")
+    $("#background").addClass("cave-floor")
+    $("#background").attr("src", "assets/images/cave-floor.png")
+    $("#rock-div").empty()
+    $("#treasure").css("display", "inline-block")
+    $(".torch").css("display", "inline-block")
+    $("#"+ torchPicked).css("display", "none")
+    $("#boulder").css("display", "inline-block")
+    $("#outside-boulder-base1").css("display", "none")
+    $("#outside-boulder-base2").css("display", "none")
+    $("#outside-boulder-top").css("display", "none")
+    $('#bat').remove()
+    if (enemyKilled === false) {
+        $("#enemy").css("display", "inline-block")
+    }
+    timer = 100
+    collapse = "notTriggered"
+    rightCount = 85
+    batLocation = 20
+    layers = 0
+    for(var i=0; i < maxId; i++) { 
+        clearTimeout(i);
+    }
+    
+    makeCave()
+
 }
 
 //animation for the rockslide
@@ -252,7 +339,7 @@ function goRight () {
             }
 
             //stops the movement and changes the page if the cave has not collapsed and the user moves to the entrance
-            else if (rightCount > 85 && (collapse === "notTriggered" || collapse === "waiting" || collapse === "avoided")) {
+            else if (rightCount > 90 && (collapse === "notTriggered" || collapse === "waiting" || collapse === "avoided")) {
                 clearInterval(moveRight);
                 changePage();
             }
@@ -301,11 +388,11 @@ function goRight () {
 
 
 function fireball() {
+
+    console.log(fireHeight)
     clearInterval(interval)
     fireCounter++
-    console.log(fireCounter)
     fireArray.push(fireCounter)
-    console.log(fireArray[0])
 
     if (isLeft === true ){
    
@@ -315,23 +402,33 @@ function fireball() {
 
             var interval = setInterval(function () {
 
-                p = $( "#fireball"+fireArray[0] );
+                p = $( "#fireball"+fireArray[0]);
                 position = p.position();
                 fireballLocation = (position.left / window.innerWidth) * 100
                 if (fireballLocation > enemyLocation && enemyKilled === false && rightCount < enemyLocation) {
                     $("#enemy").remove()
-                    $( "#fireball"+fireArray[0] ).remove()
+                    $("#fireball"+fireArray[0]).remove()
                     enemyKilled = true
                     clearInterval(interval)
-                    enemyLocation = 100
                     fireArray.shift()
-                    console.log(fireArray)
+                    for(var i=0; i < maxId; i++) { 
+                        clearTimeout(i);
+                    }
                 }
-                else if (fireballLocation > (firedLocation + 20)) {
+                if (fireballLocation > 40 && batKilled === false && rightCount < 40 && ((fireHeight === 20 && batLocation < 2) || (fireHeight === 34 && batLocation < 35 && batLocation > 30)) && (collapse === "true" || collapse === "notInCave")) {
+                    $("#bat").remove()
+                    $("#fireball"+fireArray[0]).remove()
+                    batKilled = true
                     clearInterval(interval)
-                    $( "#fireball"+fireArray[0]).remove()
                     fireArray.shift()
-                    console.log(fireArray)
+                    for(var i=0; i < maxId; i++) { 
+                        clearTimeout(i);
+                    }
+                }
+                else if ((fireballLocation > (firedLocation + 20))|| fireballLocation > 89.9) {
+                    clearInterval(interval)
+                    $("#fireball"+fireArray[0]).remove()
+                    fireArray.shift()
                 }
 
             },10)
@@ -358,18 +455,28 @@ function fireball() {
                 fireballLocation = (position.left / window.innerWidth) * 100
                 if (fireballLocation < enemyLocation && enemyKilled === false && rightCount > enemyLocation) {
                     $("#enemy").remove()
-                    $( "#fireball"+fireArray[0] ).remove()
+                    $("#fireball"+fireArray[0] ).remove()
                     enemyKilled = true
                     clearInterval(interval)
-                    enemyLocation = 100
                     fireArray.shift()
-                    console.log(fireArray)
+                    for(var i=0; i < maxId; i++) { 
+                        clearTimeout(i);
+                    }
                 }
-                else if (fireballLocation < (firedLocation - 20)) {
+                if (fireballLocation < 49 && batKilled === false && rightCount > 49 && fireHeight > 19 && (collapse === "true" || collapse === "notInCave")) {
+                    $("#bat").remove()
+                    $("#fireball"+fireArray[0] ).remove()
+                    batKilled = true
                     clearInterval(interval)
-                    $( "#fireball"+fireArray[0]).remove()
                     fireArray.shift()
-                    console.log(fireArray)
+                    for(var i=0; i < maxId; i++) { 
+                        clearTimeout(i);
+                    }
+                }
+                else if ((fireballLocation < (firedLocation - 20))|| fireballLocation < 3) {
+                    clearInterval(interval)
+                    $("#fireball"+fireArray[0]).remove()
+                    fireArray.shift()
                 }
 
             },10)
@@ -441,6 +548,10 @@ function goLeft () {
                 distance = 0.1
                 dropDown();
             }
+            else if (rightCount < 3 && (collapse === "notInCave" || collapse === "true")) {
+                clearInterval(moveLeft);
+                cavePage()
+            }
 
         },1)
         moving = true;
@@ -448,6 +559,7 @@ function goLeft () {
 }
 
 function jumping () {
+    fireHeight = fireHeight + 8
     jump = true;
     timer = 0
     topCount = 8
@@ -467,6 +579,7 @@ function jumping () {
         else {
             timer = timer + 20
             setTimeout(function() {
+
                 counter++
                 topCount = topCount * 2
                 up = (bounce+ 16) - topCount
@@ -529,69 +642,74 @@ function dropDown () {
 
 //checks to see if an arrow key is pressed (or AWSD)
 $(document).keydown(function(e) {
-    
-    //if one of these keys it changes the value of it the keys array to true
-    if (e.keyCode in keys) {
-        keys[e.keyCode] = true;
+    if (gameOver === false) {
+        //if one of these keys it changes the value of it the keys array to true
+        if (e.keyCode in keys) {
+            keys[e.keyCode] = true;
 
-        //checks if both the left and up keys are currently pressed (has to be simultaneously to trigger)
-        if (keys[38] && keys[37]) {
+            //checks if both the left and up keys are currently pressed (has to be simultaneously to trigger)
+            if (keys[38] && keys[37]) {
 
-            if (jump === false && leftBlock === false && leftEdge === false && onBlock === false)  {
-                drop = 21
-                distance = 0.1
-                jumping()
-                fireHeight = 6
+                if (jump === false && leftBlock === false && leftEdge === false && onBlock === false)  {
+                    drop = 21
+                    distance = 0.1
+                    jumping()
+                    setTimeout(function() {
+                        fireHeight = 6
+                    },200)
+                }
+                else if (jump === false && leftBlock === true && baseBlock === false)  {
+                    drop = 18
+                    distance = 0.3
+                    leftBlock = false
+                    onBlock = true;
+                    jumping()
+                    fireHeight = 20
+                }
+                else if (jump === false && leftBlock === true  && baseBlock === true) {
+                    drop = 18
+                    bounce = 14
+                    distance = 0.3
+                    leftBlock = false
+                    onBlock = true;
+                    onTop = true;
+                    jumping()
+                    fireHeight = 34
+                }
             }
-            else if (jump === false && leftBlock === true && baseBlock === false)  {
-                drop = 18
-                distance = 0.3
-                jumping()
-                leftBlock = false
-                onBlock = true;
-                fireHeight = 20
-            }
-            else if (jump === false && leftBlock === true  && baseBlock === true) {
-                drop = 18
-                bounce = 14
-                distance = 0.3
-                jumping()
-                leftBlock = false
-                onBlock = true;
-                onTop = true;
-                fireHeight = 34
-            }
-        }
 
-         //checks if both the right and up keys are currently pressed (has to be simultaneously to trigger)
-        else if (keys[38] && keys[39]) {
-
-            if (jump === false && rightBlock === false && rightEdge === false  && onBlock === false) {
-                drop = 21
-                distance = -0.1
-                jumping()
-                fireHeight = 6
-            
-            }
-            else if (jump === false && rightBlock === true && baseBlock === false) {
-                drop = 18
-                distance = -0.3
-                jumping()
-                rightBlock = false
-                onBlock = true;
-                fireHeight = 20;
-              
-            }
-            else if (jump === false && rightBlock === true  && baseBlock === true) {
-                drop = 18
-                bounce = 14
-                distance = -0.3
-                jumping()
-                rightBlock = false
-                onBlock = true;
-                onTop = true;
-                fireHeight = 34
-               
+            //checks if both the right and up keys are currently pressed (has to be simultaneously to trigger)
+            else if (keys[38] && keys[39]) {
+                console.log(keys[38])
+                if (jump === false && rightBlock === false && rightEdge === false  && onBlock === false) {
+                    drop = 21
+                    distance = -0.1
+                    jumping()
+                    setTimeout(function() {
+                        fireHeight = 6
+                    },200)
+                
+                }
+                else if (jump === false && rightBlock === true && baseBlock === false) {
+                    drop = 18
+                    distance = -0.3
+                    rightBlock = false
+                    onBlock = true;
+                    jumping()
+                    fireHeight = 20;
+                
+                }
+                else if (jump === false && rightBlock === true  && baseBlock === true) {
+                    drop = 18
+                    bounce = 14
+                    distance = -0.3
+                    rightBlock = false
+                    onBlock = true;
+                    onTop = true;
+                    jumping()
+                    fireHeight = 34
+                
+                }
             }
         }
     }
@@ -614,83 +732,60 @@ $(document).keyup(function(e) {
 
 //moves the character and detects what image should be shown based on what the user has done
 $(document).keydown(function( event ) {
+    if (gameOver === false) {
+        //checks if 'A' or the left arrow are pressed and moves accordingly
+        if ( event.which === 37 || event.which === 65) {
 
-    //checks if 'A' or the left arrow are pressed and moves accordingly
-    if ( event.which === 37 || event.which === 65) {
-        isRight = true;
-        isLeft = false;
-        
-        if (leftBlock === false && leftEdge === false) {
-            goLeft();
-        }
-        if (torch === false){
-            $("#character").attr("src", "assets/images/botanist-facing-left.png")
-        }
-        else if (collapse === "avoided" || money === true) {
-            $("#character").attr("src", "assets/images/botanist-facing-left-money.png")
-        }
-        else if (money === false) {
-            $("#character").attr("src", "assets/images/botanist-facing-left-torch.png")
-        }
-
-
-
-        if (rightCount < 3 && collapse === "notInCave") {
-            $("#character").css("left", "98%")
-            $("#background").removeClass("outside-floor")
-            $("#background").addClass("cave-floor")
-            $("#background").attr("src", "assets/images/cave-floor.png")
-            $("#rock-div").empty()
-            $("#treasure").css("display", "inline-block")
-            $(".torch").css("display", "inline-block")
-            $("#"+ torchPicked).css("display", "none")
-            $("#boulder").css("display", "inline-block")
-            $("#outside-boulder-base1").css("display", "none")
-            $("#outside-boulder-base2").css("display", "none")
-            $("#outside-boulder-top").css("display", "none")
-            if (enemyKilled === false) {
-                $("#enemy").css("display", "inline-block")
+            isRight = true;
+            isLeft = false;
+            
+            if (leftBlock === false && leftEdge === false) {
+                goLeft();
             }
-            collapse = "notTriggered"
-            rightCount = 85
-            layers = 0
-            makeCave()
-        }
+            if (torch === false){
+                $("#character").attr("src", "assets/images/botanist-facing-left.png")
+            }
+            else if (collapse === "avoided" || money === true) {
+                $("#character").attr("src", "assets/images/botanist-facing-left-money.png")
+            }
+            else if (money === false) {
+                $("#character").attr("src", "assets/images/botanist-facing-left-torch.png")
+            }
 
-        if (rightCount < 15 && collapse === "notTriggered") {
-            collapse = "waiting"
-            $("#pop-up").css("display", "inline-block")
+            if (rightCount < 15 && collapse === "notTriggered") {
+                collapse = "waiting"
+                $("#pop-up").css("display", "inline-block")
+            }
         }
-    }
-    
-    //checks if 'D' or the right arrow are pressed and moves accordingly
-    if ( event.which == 39 || event.which == 68 ) {
         
-        isRight = false;
-        isLeft = true;
-        if (rightBlock === false && rightEdge === false) {
-            goRight();
-        }
-        if (torch === false){
-            $("#character").attr("src", "assets/images/botanist-facing-right.png")
-        }
-        else if (collapse === "avoided" || money === true) {
-            $("#character").attr("src", "assets/images/botanist-facing-right-money.png")
-        }
-        else if (money === false) {
-            $("#character").attr("src", "assets/images/botanist-facing-right-torch.png")
-        }
+        //checks if 'D' or the right arrow are pressed and moves accordingly
+        if ( event.which == 39 || event.which == 68 ) {
+            
+            isRight = false;
+            isLeft = true;
+            if (rightBlock === false && rightEdge === false) {
+                goRight();
+            }
+            if (torch === false){
+                $("#character").attr("src", "assets/images/botanist-facing-right.png")
+            }
+            else if (collapse === "avoided" || money === true) {
+                $("#character").attr("src", "assets/images/botanist-facing-right-money.png")
+            }
+            else if (money === false) {
+                $("#character").attr("src", "assets/images/botanist-facing-right-torch.png")
+            }
 
+
+        }
 
     }
-
-    
 
 });
 
 
 $(document).keydown(function( event ) {
-    if ( event.which === 32) {
+    if ( event.keyCode === 32) {
         fireball()
     }
 })

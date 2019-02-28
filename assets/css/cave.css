@@ -144,6 +144,13 @@
     position: absolute;
 }
 
+#bat2 {
+    height: auto;
+    width: 10%;
+    left: 60%;
+    position: absolute;
+}
+
 .rockslide0 {
     animation: rockslide0 1200ms linear both;
     }

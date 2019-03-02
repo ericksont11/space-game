@@ -140,14 +140,14 @@
 #bat {
     height: auto;
     width: 10%;
-    left: 40%;
+    left: 38%;
     position: absolute;
 }
 
 #bat2 {
     height: auto;
     width: 10%;
-    left: 60%;
+    left: 64%;
     position: absolute;
 }
 
@@ -255,4 +255,20 @@
     0% { transform: translateX(0vw)} 
     98% { transform: translateX(-24.5vw); opacity: 1} 
     100% { transform: translateX(-25vw); opacity: 0} 
+}
+
+.batMove {
+    animation: batMove 2000ms linear both;
+    }
+    @keyframes batMove { 
+    0% { transform: translateY(60vh)}  
+    100% { transform: translateY(0vh)} 
+}
+
+.batMoveUp {
+    animation: batMoveUp 2000ms linear both;
+    }
+    @keyframes batMoveUp { 
+    0% { transform: translateY(0vh)}  
+    100% { transform: translateY(60vh)} 
 }

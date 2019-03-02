@@ -28,12 +28,12 @@ var baseBlock = false
 var bounce = 0
 var onTop = false
 var treasureClicked = false;
-var isLeft = true;
-var isRight = false;
+var isFacingRight = true;
+var isFacingLeft = false;
 var enemyKilled = false;
 var enemyLocation = 55;
 var batLocation = 20;
-var bat2Location = 20;
+var bat2Location = 25;
 var firedLocation;
 var fireHeight = 6;
 var fireballLocation = 0;
@@ -42,6 +42,7 @@ var fireArray = []
 var gameOver = false;
 var batKilled = false;
 var bat2Killed = false;
+var isFiring = false
 
 
 // dynamically create the cave
@@ -149,12 +150,13 @@ function enemyRight () {
                 checkLife()
                 batLocation = batLocation + 0.3
                 $("#bat").css('bottom', batLocation + "%")
+                },timer)
+                
                 maxId2 = setTimeout(function() {
                 checkLife()
-                bat2Location = bat2Location + 0.3
+                bat2Location = bat2Location + 0.4
                 $("#bat2").css('bottom', bat2Location + "%")
-                })
-            }, timer) 
+                }, timer) 
         }
         else {
                 maxId = setTimeout(function() {
@@ -170,15 +172,16 @@ function enemyLeft() {
     for (var y = 0; y < 200; y++) {
         timer = timer + 15
         if (collapse === "true" || collapse === "notInCave") {
-                maxId = setTimeout(function() {
-                checkLife()
-                batLocation = batLocation - 0.3
-                $("#bat").css('bottom', batLocation + "%")
-                maxId2 = setTimeout(function() {
-                checkLife()
-                bat2Location = bat2Location - 0.3
-                $("#bat2").css('bottom', bat2Location + "%")
-                })
+            maxId = setTimeout(function() {
+            checkLife()
+            batLocation = batLocation - 0.3
+            $("#bat").css('bottom', batLocation + "%")
+            },timer)
+            
+            maxId2 = setTimeout(function() {
+            checkLife()
+            bat2Location = bat2Location - 0.4
+            $("#bat2").css('bottom', bat2Location + "%")
             }, timer) 
         }
         else {
@@ -201,13 +204,13 @@ function checkLife () {
         $('#character').attr('src','assets/images/skeleton.png')
         gameOver = true
     }
-    if ((batKilled === false && batLocation < 25 && rightCount > 33 && rightCount < 50.2 && (collapse === "notInCave" || collapse === "true")) || gameOver === true) {
+    if ((batKilled === false && batLocation < 28 && rightCount > 32 && rightCount < 47 && (collapse === "notInCave" || collapse === "true")) || gameOver === true) {
         $("#pop-up").css("display", "inline-block")
         $("p").html("GAME OVER!")
         $('#character').attr('src','assets/images/skeleton.png')
         gameOver = true
     }
-    if ((bat2Killed === false && bat2Location < 25 && rightCount > 33 && rightCount < 50.2 && (collapse === "notInCave" || collapse === "true")) || gameOver === true) {
+    if ((bat2Killed === false && bat2Location < 59 && rightCount > 57 && rightCount < 73.5 && (collapse === "notInCave" || collapse === "true")) || gameOver === true) {
         $("#pop-up").css("display", "inline-block")
         $("p").html("GAME OVER!")
         $('#character').attr('src','assets/images/skeleton.png')
@@ -256,7 +259,7 @@ function changePage() {
 
     if (bat2Killed === false) {
         $('body').append('<img id="bat2" src="assets/images/bat.png" />')
-        bat2Location = 20
+        bat2Location = 25
     }
 
     for(var i=0; i < maxId; i++) { 
@@ -290,7 +293,7 @@ function cavePage () {
     collapse = "notTriggered"
     rightCount = 85
     batLocation = 20
-    bat2Location = 20
+    bat2Location = 25
     layers = 0
     for(var i=0; i < maxId; i++) { 
         clearTimeout(i);
@@ -416,13 +419,17 @@ function goRight () {
 
 
 function fireball() {
-
-    clearInterval(interval)
-    fireCounter++
-    fireArray.push(fireCounter)
-
-    if (isLeft === true ){
-   
+    console.log("bat2location: " + bat2Location)
+    if (isFiring === false) {
+        isFiring = true
+        setTimeout(function() {
+            isFiring = false
+        },100)
+        clearInterval(interval)
+        fireCounter++
+        fireArray.push(fireCounter)
+        if (isFacingRight === true){
+            console.log("right")
             $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
 
             firedLocation = rightCount + 6
@@ -442,17 +449,17 @@ function fireball() {
                         clearTimeout(i);
                     }
                 }
-                if (fireballLocation > 40 && batKilled === false && rightCount < 40 && ((fireHeight === 20 && batLocation < 2) || (fireHeight === 34 && batLocation < 35 && batLocation > 30)) && (collapse === "true" || collapse === "notInCave")) {
+                if (fireballLocation > 40 && batKilled === false && rightCount < 40 && ((fireHeight === 20 && batLocation < 21) || (fireHeight === 34 && batLocation < 35 && batLocation > 30)) && (collapse === "true" || collapse === "notInCave")) {
                     $("#bat").remove()
                     $("#fireball"+fireArray[0]).remove()
                     batKilled = true
                     clearInterval(interval)
                     fireArray.shift()
                     for(var i=0; i < maxId; i++) { 
-                        clearTimeout(i);
+                        clearTimeout(maxId);
                     }
                 }
-                if (fireballLocation > 40 && bat2Killed === false && rightCount < 40 && ((fireHeight === 20 && bat2Location < 2) || (fireHeight === 34 && bat2Location < 35 && bat2Location > 30)) && (collapse === "true" || collapse === "notInCave")) {
+                if (fireballLocation > 60 && bat2Killed === false && rightCount < 60 && (fireHeight === 34 && bat2Location < 35 && bat2Location > 40) && (collapse === "true" || collapse === "notInCave")) {
                     $("#bat2").remove()
                     $("#fireball"+fireArray[0]).remove()
                     bat2Killed = true
@@ -479,62 +486,64 @@ function fireball() {
     
     }
     
-    if (isRight === true ){
-    
-            $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
+        if (isFacingLeft === true){
 
-            firedLocation = rightCount - 1
+                $('body').append('<img class="fireball" id ="fireball'+fireCounter+'" src="assets/images/fireball.png" />')
 
-            var interval = setInterval(function () {
+                firedLocation = rightCount - 1
 
-                p = $( "#fireball"+fireArray[0] );
-                position = p.position();
-                fireballLocation = (position.left / window.innerWidth) * 100
-                if (fireballLocation < enemyLocation && enemyKilled === false && rightCount > enemyLocation) {
-                    $("#enemy").remove()
-                    $("#fireball"+fireArray[0] ).remove()
-                    enemyKilled = true
-                    clearInterval(interval)
-                    fireArray.shift()
-                    for(var i=0; i < maxId; i++) { 
-                        clearTimeout(i);
+                var interval = setInterval(function () {
+
+                    p = $( "#fireball"+fireArray[0] );
+                    position = p.position();
+                    fireballLocation = (position.left / window.innerWidth) * 100
+                    if (fireballLocation < enemyLocation && enemyKilled === false && rightCount > enemyLocation) {
+                        $("#enemy").remove()
+                        $("#fireball"+fireArray[0] ).remove()
+                        enemyKilled = true
+                        clearInterval(interval)
+                        fireArray.shift()
+                        for(var i=0; i < maxId; i++) { 
+                            clearTimeout(i);
+                        }
                     }
-                }
-                if (fireballLocation < 49 && batKilled === false && rightCount > 49 && fireHeight > 19 && (collapse === "true" || collapse === "notInCave")) {
-                    $("#bat").remove()
-                    $("#fireball"+fireArray[0] ).remove()
-                    batKilled = true
-                    clearInterval(interval)
-                    fireArray.shift()
-                    for(var i=0; i < maxId; i++) { 
-                        clearTimeout(i);
+                    if (fireballLocation < 49 && batKilled === false && rightCount > 49 && ((fireHeight === 20 && batLocation < 25) || (fireHeight === 34 && batLocation < 35 )) && (collapse === "true" || collapse === "notInCave")) {
+                        console.log("yikes")
+                        $("#bat").remove()
+                        $("#fireball"+fireArray[0] ).remove()
+                        batKilled = true
+                        clearInterval(interval)
+                        fireArray.shift()
+                        for(var i=0; i < maxId; i++) { 
+                            clearTimeout(maxId);
+                        }
                     }
-                }
-                if (fireballLocation < 49 && bat2Killed === false && rightCount > 49 && fireHeight > 19 && (collapse === "true" || collapse === "notInCave")) {
-                    $("#bat2").remove()
-                    $("#fireball"+fireArray[0] ).remove()
-                    bat2Killed = true
-                    clearInterval(interval)
-                    fireArray.shift()
-                    for(var i=0; i < maxId2; i++) { 
-                        clearTimeout(i);
+                    if (fireballLocation < 49 && bat2Killed === false && rightCount > 49 && fireHeight > 60 && (collapse === "true" || collapse === "notInCave")) {
+                        $("#bat2").remove()
+                        $("#fireball"+fireArray[0] ).remove()
+                        bat2Killed = true
+                        clearInterval(interval)
+                        fireArray.shift()
+                        for(var i=0; i < maxId2; i++) { 
+                            clearTimeout(i);
+                        }
                     }
-                }
-                else if ((fireballLocation < (firedLocation - 20))|| fireballLocation < 3) {
-                    clearInterval(interval)
-                    $("#fireball"+fireArray[0]).remove()
-                    fireArray.shift()
-                }
+                    else if ((fireballLocation < (firedLocation - 20))|| fireballLocation < 3) {
+                        clearInterval(interval)
+                        $("#fireball"+fireArray[0]).remove()
+                        fireArray.shift()
+                    }
 
-            },10)
+                },10)
+                
+
+                $("#fireball"+fireCounter).css('left', firedLocation + "%");
+                $("#fireball"+fireCounter).css('bottom', fireHeight + "%");
+                $("#fireball"+fireCounter).addClass('fireLeft');
+                $("#fireball"+fireCounter).css('left', firedLocation + "%");
             
 
-            $("#fireball"+fireCounter).css('left', firedLocation + "%");
-            $("#fireball"+fireCounter).css('bottom', fireHeight + "%");
-            $("#fireball"+fireCounter).addClass('fireLeft');
-            $("#fireball"+fireCounter).css('left', firedLocation + "%");
-        
-
+        }
     }
 
 }
@@ -734,7 +743,6 @@ $(document).keydown(function(e) {
 
 
             else if (keys[38] && keys[39]) {
-                console.log("left")
                 if (jump === false && rightBlock === false && rightEdge === false  && onBlock === false) {
                     drop = 21
                     distance = -0.1
@@ -790,8 +798,8 @@ $(document).keydown(function( event ) {
         //checks if 'A' or the left arrow are pressed and moves accordingly
         if ( event.which === 37 || event.which === 65) {
 
-            isRight = true;
-            isLeft = false;
+            isFacingLeft = true;
+            isFacingRight = false;
             
             if (leftBlock === false && leftEdge === false) {
                 goLeft();
@@ -815,8 +823,8 @@ $(document).keydown(function( event ) {
         //checks if 'D' or the right arrow are pressed and moves accordingly
         if ( event.which == 39 || event.which == 68 ) {
             
-            isRight = false;
-            isLeft = true;
+            isFacingLeft = false;
+            isFacingRight = true;
             if (rightBlock === false && rightEdge === false) {
                 goRight();
             }

@@ -507,10 +507,9 @@ function fireball() {
                             clearTimeout(i);
                         }
                     }
-                    if (fireballLocation < 49 && batKilled === false && rightCount > 49 && ((fireHeight === 20 && batLocation < 25) || (fireHeight === 34 && batLocation < 35 )) && (collapse === "true" || collapse === "notInCave")) {
-                        console.log("yikes")
+                    if (fireballLocation < 49 && batKilled === false && rightCount < 49 && ((fireHeight === 20 && batLocation < 21) || (fireHeight === 34 && batLocation < 35 && batLocation > 30)) && (collapse === "true" || collapse === "notInCave")) {
                         $("#bat").remove()
-                        $("#fireball"+fireArray[0] ).remove()
+                        $("#fireball"+fireArray[0]).remove()
                         batKilled = true
                         clearInterval(interval)
                         fireArray.shift()
@@ -518,9 +517,9 @@ function fireball() {
                             clearTimeout(maxId);
                         }
                     }
-                    if (fireballLocation < 49 && bat2Killed === false && rightCount > 49 && fireHeight > 60 && (collapse === "true" || collapse === "notInCave")) {
+                    if (fireballLocation > 60 && bat2Killed === false && rightCount < 60 && (fireHeight === 34 && bat2Location < 35 && bat2Location > 40) && (collapse === "true" || collapse === "notInCave")) {
                         $("#bat2").remove()
-                        $("#fireball"+fireArray[0] ).remove()
+                        $("#fireball"+fireArray[0]).remove()
                         bat2Killed = true
                         clearInterval(interval)
                         fireArray.shift()
